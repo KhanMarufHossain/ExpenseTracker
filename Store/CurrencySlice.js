@@ -9,7 +9,7 @@ const CurrencySlice= createSlice({
     {
         setCurrency: (state, action)=>{
             state.code = action.payload;
-        }
+        },
     }
 });
 

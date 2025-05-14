@@ -13,7 +13,8 @@ export default function App() {
     <NavigationContainer><Stack.Navigator>
       <Stack.Screen name='Currency' component={ChooseCurrency}/>
       <Stack.Screen name= "Home" component={Home}/>
-      </Stack.Navigator></NavigationContainer> </Provider>
+      </Stack.Navigator></NavigationContainer> 
+      </Provider>
    
   );
 }
