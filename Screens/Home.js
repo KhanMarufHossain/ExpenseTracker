@@ -1,26 +1,34 @@
-import {View, Text, StyleSheet, SafeAreaView, StatusBar} from 'react-native';
-import Title from '../Components/Title';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  useWindowDimensions,
+} from "react-native";
+import Title from "../Components/Title";
 
 export default function Home() {
-    return(
-        <SafeAreaView style={styles.safeArea}>
-            <StatusBar backgroundColor="#1a73e8" barStyle="light-content" />
-            <View style={styles.mainContainer}>
-                <Title/>
-               
-            </View>
-        </SafeAreaView>
-    );
+  const { width, height } = useWindowDimensions();
+  const isPortrait = height > width;
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar backgroundColor="#1a73e8" barStyle="light-content" />
+      <View style={styles.mainContainer}>
+        <Title />
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: '#1a73e8',
-    },
-    mainContainer: {
-        flex: 1,
-        backgroundColor: '#1a73e8',
-        padding: 16,
-    }
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#1a73e8",
+  },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#1a73e8",
+    padding: 16,
+  },
 });
