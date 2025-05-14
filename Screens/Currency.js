@@ -6,7 +6,7 @@ import { useDispatch , useSelector} from "react-redux";
 export default function ChooseCurrency() {
   const [enteredText, setEnteredText] = useState('');
   const dispatch= useDispatch();
-  const currency = useSelector((state)=>state.CurrencyReducer);
+  const currency = useSelector((store)=>store.Currency);
   return (
     <View>
       <TextInput
