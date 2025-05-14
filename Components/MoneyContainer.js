@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function MoneyContainer({ money }) {
+export default function MoneyAmount({ money }) {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.moneyText}>{money}</Text>
@@ -9,12 +9,13 @@ export default function MoneyContainer({ money }) {
 }
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: "#3498db",
+    backgroundColor: "#4ba77b",
     borderRadius: 50,
     alignItems: "center",
-    marginTop: 40,
+    // marginTop: 40,
     marginHorizontal: 50,
     elevation: 3,
+    height: 100,
   },
 
   moneyText: {
