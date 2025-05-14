@@ -5,7 +5,7 @@ export default function Title() {
    
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Expense Tracker</Text>
+            <Text style={styles.title}>WALLET</Text>
         </View>
     );
 }
@@ -14,20 +14,17 @@ const styles = StyleSheet.create({
     container: {
         padding: 16,
         backgroundColor: '#3498db',
-        borderRadius: 8,
+        borderRadius: 50,
         alignItems: 'center',
         marginTop: 40,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        marginHorizontal: 50,
         elevation: 3,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         color: '#fff',
-        textTransform: 'uppercase',
+        
         letterSpacing: 1,
     }
 });
