@@ -8,7 +8,7 @@ import {
 } from "react-native";
 
 import Title from "../Components/Title";
-import MoneyAmount from "../Components/MoneyContainer";
+import MoneyAmount from "../Components/MoneyAmount";
 
 export default function Home() {
   
