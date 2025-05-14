@@ -1,16 +1,26 @@
-import {View, Text,StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, StatusBar} from 'react-native';
 import Title from '../Components/Title';
-export default function Home ()
-{
+
+export default function Home() {
     return(
-        <View style={styles.maincontainer} >
-           <Title/>
-        </View>
+        <SafeAreaView style={styles.safeArea}>
+            <StatusBar backgroundColor="#1a73e8" barStyle="light-content" />
+            <View style={styles.mainContainer}>
+                <Title/>
+               
+            </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    maincontainer: {
+    safeArea: {
         flex: 1,
+        backgroundColor: '#1a73e8',
+    },
+    mainContainer: {
+        flex: 1,
+        backgroundColor: '#1a73e8',
+        padding: 16,
     }
 });
