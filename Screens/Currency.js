@@ -1,6 +1,6 @@
 import { View, TextInput, StyleSheet, Button, Text, TouchableOpacity, SafeAreaView, StatusBar } from "react-native";
 import { useState } from "react";
-import { setCurrency } from "../Store/CurrencySlice";
+import { setCurrencyCode } from "../Store/CurrencySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
@@ -27,10 +27,10 @@ export default function ChooseCurrency() {
       </View>
       
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Currency Symbol:</Text>
+        <Text style={styles.label}>Currency Code:</Text>
         <TextInput
           style={styles.input}
-          placeholder="e.g., $, €, £, ¥"
+          placeholder="e.g., USD,Tk,INR etc."
           onChangeText={(text) => setEnteredText(text)}
           value={enteredText}
           maxLength={3}
