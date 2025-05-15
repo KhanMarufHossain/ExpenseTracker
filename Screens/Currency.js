@@ -12,7 +12,7 @@ export default function ChooseCurrency() {
 
   const handleSetCurrency = () => {
     if (enteredText.trim()) {
-      dispatch(setCurrency(enteredText));
+      dispatch(setCurrencyCode(enteredText));
       navigation.navigate('Home');
     }
   };
@@ -50,12 +50,12 @@ export default function ChooseCurrency() {
         <Text style={styles.buttonText}>Set Currency</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.secondaryButton}
         onPress={() => navigation.navigate('Home')}
       >
         <Text style={styles.secondaryButtonText}>Skip</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </SafeAreaView>
   );
 }
