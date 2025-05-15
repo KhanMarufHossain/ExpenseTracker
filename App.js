@@ -6,40 +6,24 @@ import { Store } from './Store/store.js';
 import { Provider, useSelector } from 'react-redux';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Stack = createNativeStackNavigator();
-
-
-function MainNavigation() {
+const Drawer = createDrawerNavigator();
+function DrawerNavigation(){
   const currency = useSelector((store) => store.Currency);
   const initialRoute = currency?.code ? "Home" : "Currency";
-  
-  return (
-    <Stack.Navigator
-      initialRouteName={initialRoute}
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#4CAF50',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        contentStyle: {
-          backgroundColor: '#f9f9f9',
-        },
-        animation: 'slide_from_right',
-      }}
-    >
-      <Stack.Screen 
-        name="Currency"
+  return(
+    <Drawer.Navigator
+    initialRouteName= {initialRoute}>
+      <Drawer.Screen  name="Currency"
         component={ChooseCurrency}
         options={{
-          headerShown: false,
+          headerShown: true,
           title: "Select Currency"
-        }}
-      />
-      <Stack.Screen 
+        }} />
+
+      <Drawer.Screen
         name="Home" 
         component={Home}
         options={{
@@ -47,16 +31,17 @@ function MainNavigation() {
           headerBackTitle: "Back",
         }}
       />
-    </Stack.Navigator>
+    </Drawer.Navigator>
   );
-}
+};
+
 
 export default function App() {
   return (
     <Provider store={Store}>
       <NavigationContainer>
         <StatusBar style="auto" />
-        <MainNavigation />
+        <DrawerNavigation />
       </NavigationContainer>
     </Provider>
   );
