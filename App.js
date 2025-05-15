@@ -15,7 +15,10 @@ function DrawerNavigation() {
   const initialRoute = currency?.code ? "Home" : "Currency";
   return (
     <Drawer.Navigator
-      screenOptions={{}}
+      screenOptions={{
+        drawerStyle: {backgroundColor: '#fff'},
+        headerStyle : {backgroundColor: '#fff'}
+      }}
       initialRouteName={initialRoute}
       backBehavior="firstroute"
     >
@@ -25,6 +28,7 @@ function DrawerNavigation() {
         options={{
           title: "Expense Tracker",
           headerBackTitle: "Back",
+          
         }}
       />
       <Drawer.Screen

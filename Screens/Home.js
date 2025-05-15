@@ -17,7 +17,7 @@ export default function Home() {
   return (
     
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar backgroundColor="#1a73e8" barStyle="light-content" />
+      <StatusBar backgroundColor="#fff" barStyle="light-content" />
       <View style={styles.mainContainer}>
         <Title/>
         <Text style= {styles.yourwallettext}>Balance:</Text>
@@ -30,17 +30,17 @@ export default function Home() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#fff",
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#fff",
     padding: 16,
   },
   yourwallettext: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#000",
     letterSpacing: 1,
     marginTop: 20,
     marginVertical: 30,
