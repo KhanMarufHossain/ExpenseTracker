@@ -7,6 +7,7 @@ import { Provider, useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -16,8 +17,28 @@ function DrawerNavigation() {
   return (
     <Drawer.Navigator
       screenOptions={{
-        drawerStyle: {backgroundColor: '#fff'},
-        headerStyle : {backgroundColor: '#fff'}
+        drawerStyle: {
+          backgroundColor: '#f8f9fa',
+          width: 250,
+          borderTopRightRadius: 15,
+          borderBottomRightRadius: 15,
+          paddingTop: 10
+        },
+        headerStyle: {
+          backgroundColor: '#4CAF50',
+          elevation: 5,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 18
+        },
+        drawerLabelStyle: {
+          fontSize: 16,
+          marginLeft: -15
+        },
+        drawerActiveBackgroundColor: '#e8f5e9',
+        drawerActiveTintColor: '#2E7D32'
       }}
       initialRouteName={initialRoute}
       backBehavior="firstroute"
@@ -27,8 +48,9 @@ function DrawerNavigation() {
         component={Home}
         options={{
           title: "Expense Tracker",
-          headerBackTitle: "Back",
-          
+          drawerIcon: ({color}) => (
+            <Ionicons name="home" size={22} color={color} />
+          )
         }}
       />
       <Drawer.Screen
@@ -37,6 +59,9 @@ function DrawerNavigation() {
         options={{
           headerShown: true,
           title: "Select Currency",
+          drawerIcon: ({color}) => (
+            <Ionicons name="cash-outline" size={22} color={color} />
+          )
         }}
       />
     </Drawer.Navigator>
