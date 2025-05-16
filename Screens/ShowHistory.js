@@ -67,19 +67,15 @@ const History = () => {
     }
   };    // Sort by newest first
   const sortedTransactions = [...allTransactions].sort((a, b) => {
-    // Check if items have date and time properties
-    if (!a.date || !a.time) return 1;  // Push items without date to the end
-    if (!b.date || !b.time) return -1; // Push items without date to the end
+    
+    if (!a.date || !a.time) return 1;  
+    if (!b.date || !b.time) return -1; 
     
     try {
       const dateA = getDateFromString(a.date, a.time);
       const dateB = getDateFromString(b.date, b.time);
       
-      // Remove debug logging for production
-      // console.log(`Comparing: 
-      //   - ${a.type} ${a.amount} (${a.date} ${a.time}) => ${dateA.toISOString()}
-      //   - ${b.type} ${b.amount} (${b.date} ${b.time}) => ${dateB.toISOString()}
-      // `);
+      
       
       return dateB - dateA; // Sort descending (newest first)
     } catch (error) {
@@ -88,7 +84,7 @@ const History = () => {
     }
   });
 
-  // Group transactions by date - with null check
+  
   const groupedTransactions = sortedTransactions.reduce((groups, transaction) => {
     // Skip transactions without a date
     if (!transaction.date) return groups;
@@ -99,9 +95,9 @@ const History = () => {
     groups[transaction.date].push(transaction);
     return groups;
   }, {});
-  // Convert grouped transactions to array for FlatList and sort transactions within each date
+  
   const groupedData = Object.entries(groupedTransactions).map(([date, transactions]) => {
-    // Sort transactions within each date group by time (earliest first)
+    
     const sortedByTime = [...transactions].sort((a, b) => {
       if (!a.time || !b.time) return 0;
       const timeA = getDateFromString(a.date, a.time);
