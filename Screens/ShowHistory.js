@@ -65,8 +65,7 @@ const History = () => {
       console.log("Date parsing error:", error);
       return new Date(0);
     }
-  };
-    // Sort by newest first
+  };    // Sort by newest first
   const sortedTransactions = [...allTransactions].sort((a, b) => {
     // Check if items have date and time properties
     if (!a.date || !a.time) return 1;  // Push items without date to the end
@@ -76,11 +75,11 @@ const History = () => {
       const dateA = getDateFromString(a.date, a.time);
       const dateB = getDateFromString(b.date, b.time);
       
-      // Debug logging to ensure dates are parsed correctly
-      console.log(`Comparing: 
-        - ${a.type} ${a.amount} (${a.date} ${a.time}) => ${dateA.toISOString()}
-        - ${b.type} ${b.amount} (${b.date} ${b.time}) => ${dateB.toISOString()}
-      `);
+      // Remove debug logging for production
+      // console.log(`Comparing: 
+      //   - ${a.type} ${a.amount} (${a.date} ${a.time}) => ${dateA.toISOString()}
+      //   - ${b.type} ${b.amount} (${b.date} ${b.time}) => ${dateB.toISOString()}
+      // `);
       
       return dateB - dateA; // Sort descending (newest first)
     } catch (error) {
