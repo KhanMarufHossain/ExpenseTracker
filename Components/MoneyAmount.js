@@ -4,11 +4,11 @@ import { useSelector } from "react-redux";
 export default function MoneyAmount() {
   
   const Currency= useSelector((store)=>store.Currency);
-  
+  const Balance = Currency.income- Currency.expense;
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.currencycode}>{Currency.code}</Text>
-      <Text style={styles.moneyText}>{Currency.income}</Text>
+      <Text style={styles.moneyText}>{Balance}</Text>
     </View>
   );
 }

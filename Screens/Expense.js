@@ -10,25 +10,25 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { setIncome } from "../Store/CurrencySlice";
+import { setExpense } from "../Store/CurrencySlice";
 
-const Income = () => {
+const Expense = () => {
   const dispatch = useDispatch();
   const currency = useSelector((store) => store.Currency);
 
   const [amount, setAmount] = useState(0);
   const buttonhandler = () => {
-    const income = parseInt(amount) + parseInt(currency.income);
-    dispatch(setIncome(income));
+    const expense = parseInt(amount) + parseInt(currency.expense);
+    dispatch(setExpense(expense));
     setAmount('');
   };
-  // console.log(currency.balance, currency.addmoney);
+  
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#4ba77b" barStyle="light-content" />
-      <Title name="Income Tracker" style={styles.title} />
-      <Text style={styles.instructionText}>Add Money to track:</Text>
+      <Title name="Expense Count" style={styles.title} />
+      <Text style={styles.instructionText}>Spent :</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.currencySymbol}>{currency.code}</Text>
         <TextInput
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20, // Reduced from 40 since we now have the instruction text
+    marginTop: 20, 
   },
   currencySymbol: {
     fontSize: 36,
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Income;
+export default Expense;

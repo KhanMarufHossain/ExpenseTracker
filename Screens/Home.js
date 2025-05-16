@@ -27,13 +27,14 @@ export default function Home() {
           <MoneyAmount />
         </View>
         <View style={styles.summaryContainer}>
+          <Text>Tap to Add: </Text>
           <Pressable android_ripple={{color: 'green'}} onPress={()=>navigation.navigate('Income')} style={styles.summaryItem}>
             <Text style={styles.summaryLabel}>Income</Text>
             <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income}</Text>
           </Pressable>
-          <Pressable style={styles.summaryItem}>
+          <Pressable android_ripple={{color: 'red'}} onPress={()=>navigation.navigate('Expense')} style={styles.summaryItem}>
             <Text style={styles.summaryLabel}>Expenses</Text>
-            <Text style={[styles.summaryValue, styles.expenseText]}>-$0.00</Text>
+            <Text style={[styles.summaryValue, styles.expenseText]}>-{Currency.expense}</Text>
           </Pressable>
         </View>
       </View>

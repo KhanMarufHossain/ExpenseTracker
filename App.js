@@ -10,7 +10,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import Income from "./Screens/Incoming.js";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
+import Expense from './Screens/Expense.js';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 function DrawerNavigation() {
@@ -43,7 +43,7 @@ function DrawerNavigation() {
         drawerActiveTintColor: "#2E7D32",
       }}
       initialRouteName= 'Home'
-      backBehavior="firstroute"
+      backBehavior="initialRoute"
     >
       <Drawer.Screen
         name="Home"
@@ -76,6 +76,17 @@ function DrawerNavigation() {
           ),
         }}
       />
+      <Drawer.Screen
+        name="Expense"
+        component={Expense}
+        options={{
+          title: "Add Expense",
+          drawerIcon: ({ color }) => (
+            <MaterialCommunityIcons name="cash-minus" size={22} color={color} />
+          ),
+        }}
+      />
+
     </Drawer.Navigator>
   );
 }
