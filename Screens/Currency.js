@@ -16,13 +16,12 @@ export default function ChooseCurrency() {
       navigation.navigate('Home');
     }
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Choose Currency</Text>
+        <Text style={styles.headerText}>Change Currency Code</Text>
         <Text style={styles.subheaderText}>Select the currency you want to use for tracking expenses</Text>
       </View>
       
@@ -50,12 +49,12 @@ export default function ChooseCurrency() {
         <Text style={styles.buttonText}>Set Currency</Text>
       </TouchableOpacity>
       
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={styles.secondaryButton}
         onPress={() => navigation.navigate('Home')}
       >
         <Text style={styles.secondaryButtonText}>Skip</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

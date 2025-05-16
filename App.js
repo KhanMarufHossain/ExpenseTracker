@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 function DrawerNavigation() {
   const currency = useSelector((store) => store.Currency);
-  const initialRoute = currency?.code ? "Home" : "Currency";
+  
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -42,7 +42,7 @@ function DrawerNavigation() {
         drawerActiveBackgroundColor: "#e8f5e9",
         drawerActiveTintColor: "#2E7D32",
       }}
-      initialRouteName={initialRoute}
+      initialRouteName= 'Home'
       backBehavior="firstroute"
     >
       <Drawer.Screen
@@ -60,7 +60,7 @@ function DrawerNavigation() {
         component={ChooseCurrency}
         options={{
           headerShown: true,
-          title: "Select Currency",
+          title: "Change Currency",
           drawerIcon: ({ color }) => (
             <Ionicons name="cash-outline" size={22} color={color} />
           ),

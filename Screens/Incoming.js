@@ -25,6 +25,7 @@ const Income = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#4ba77b" barStyle="light-content" />
       <Title name="Income Tracker" style={styles.title} />
+      <Text style={styles.instructionText}>Add Money to track:</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.currencySymbol}>{currency.code}</Text>
         <TextInput
@@ -36,6 +37,7 @@ const Income = () => {
           onChangeText={(text) => setAmount(text)}
           value={amount}
         />
+       
       </View>
       {amount && amount.toString().trim() ? (
         <View style={styles.button}>
@@ -60,11 +62,22 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     elevation: 4,
   },
+  instructionText: {
+    fontSize: 18,
+    color: "#ffffff",
+    fontWeight: "600",
+    textAlign: "center",
+    marginTop: 25,
+    letterSpacing: 0.5,
+    textShadowColor: 'rgba(0, 0, 0, 0.15)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
   inputContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 20,  // Reduced from 40 since we now have the instruction text
   },
   currencySymbol: {
     fontSize: 36,
