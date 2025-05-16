@@ -16,7 +16,7 @@ const CurrencySlice= createSlice({
         addmoney: (state, action)=> {
             state.addmoney = action.payload;
         }, 
-        setBalance: ()=>{
+        setBalance: (state, action)=>{
             state.balance = action.payload;
         }
     }

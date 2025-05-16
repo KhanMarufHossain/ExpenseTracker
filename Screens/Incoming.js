@@ -10,18 +10,21 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { addmoney } from '../Store/CurrencySlice';
+import { addmoney, setBalance } from "../Store/CurrencySlice";
 
 const Income = () => {
   const dispatch = useDispatch();
   const currency = useSelector((store) => store.Currency);
-  
+
   const [amount, setAmount] = useState(0);
   const buttonhandler = () => {
     dispatch(addmoney(amount));
-    
+    const balance = parseInt(amount) + parseInt(currency.balance);
+    dispatch(setBalance(balance));
+    setAmount('');
   };
-  
+  console.log(currency.balance, currency.addmoney);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#4ba77b" barStyle="light-content" />
@@ -38,7 +41,6 @@ const Income = () => {
           onChangeText={(text) => setAmount(text)}
           value={amount}
         />
-       
       </View>
       {amount && amount.toString().trim() ? (
         <View style={styles.button}>
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 25,
     letterSpacing: 0.5,
-    textShadowColor: 'rgba(0, 0, 0, 0.15)',
+    textShadowColor: "rgba(0, 0, 0, 0.15)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
   },
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,  // Reduced from 40 since we now have the instruction text
+    marginTop: 20, // Reduced from 40 since we now have the instruction text
   },
   currencySymbol: {
     fontSize: 36,
