@@ -38,17 +38,17 @@ const History = () => {
           minutes = parseInt(timeParts[2], 10);
           seconds = parseInt(timeParts[3], 10);
           
-          // Convert to 24-hour format if PM
+          
           if (timeParts[4].toUpperCase() === 'PM' && hours < 12) {
             hours += 12;
           }
-          // Convert 12 AM to 0 hours
+          
           if (timeParts[4].toUpperCase() === 'AM' && hours === 12) {
             hours = 0;
           }
         }
       } else {
-        // 24-hour format
+        
         const timeParts = timeStr.match(/(\d+):(\d+):(\d+)/);
         if (timeParts) {
           hours = parseInt(timeParts[1], 10);
@@ -57,15 +57,14 @@ const History = () => {
         }
       }
       
-      // Create date using specific parameters instead of string parsing
-      // Note: months in JavaScript are 0-indexed (0 = January, 11 = December)
+      
       return new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10), hours, minutes, seconds);
       
     } catch (error) {
       console.log("Date parsing error:", error);
       return new Date(0);
     }
-  };    // Sort by newest first
+  };    
   const sortedTransactions = [...allTransactions].sort((a, b) => {
     
     if (!a.date || !a.time) return 1;  
@@ -77,7 +76,7 @@ const History = () => {
       
       
       
-      return dateB - dateA; // Sort descending (newest first)
+      return dateB - dateA; 
     } catch (error) {
       console.log("Sorting error:", error);
       return 0;
@@ -86,7 +85,7 @@ const History = () => {
 
   
   const groupedTransactions = sortedTransactions.reduce((groups, transaction) => {
-    // Skip transactions without a date
+    
     if (!transaction.date) return groups;
     
     if (!groups[transaction.date]) {
@@ -97,12 +96,12 @@ const History = () => {
   }, {});
   
   const groupedData = Object.entries(groupedTransactions).map(([date, transactions]) => {
-    
+   
     const sortedByTime = [...transactions].sort((a, b) => {
       if (!a.time || !b.time) return 0;
       const timeA = getDateFromString(a.date, a.time);
       const timeB = getDateFromString(b.date, b.time);
-      return timeA - timeB; // Sort ascending (earliest first)
+      return timeA - timeB; 
     });
     
     return {
