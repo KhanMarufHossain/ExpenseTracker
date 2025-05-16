@@ -15,14 +15,14 @@ export default function MoneyAmount() {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: "#4ba77b",
+    backgroundColor: "#1976D2",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 30,
     paddingVertical: 22,
     paddingHorizontal: 40,
-    elevation: 4,// shadow for ios
+    elevation: 4,
     flexDirection: "row",
   },
   currencycode: {

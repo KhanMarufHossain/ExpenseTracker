@@ -23,10 +23,9 @@ const Expense = () => {
     setAmount('');
   };
   
-
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#4ba77b" barStyle="light-content" />
+      <StatusBar backgroundColor="#e74c3c" barStyle="light-content" />
       <Title name="Expense Count" style={styles.title} />
       <Text style={styles.instructionText}>Spent :</Text>
       <View style={styles.inputContainer}>
@@ -43,7 +42,11 @@ const Expense = () => {
       </View>
       {amount && amount.toString().trim() ? (
         <View style={styles.button}>
-          <Button title="Add" onPress={buttonhandler} />
+          <Button 
+            title="Add" 
+            onPress={buttonhandler} 
+            color="#c0392b" 
+          />
         </View>
       ) : null}
     </SafeAreaView>
@@ -53,11 +56,11 @@ const Expense = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#4ba77b",
+    backgroundColor: "#e74c3c",
     paddingHorizontal: 16,
   },
   title: {
-    backgroundColor: "#38865f",
+    backgroundColor: "#c0392b",
     borderRadius: 15,
     marginTop: 30,
     marginHorizontal: 30,

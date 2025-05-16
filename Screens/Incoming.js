@@ -22,11 +22,10 @@ const Income = () => {
     dispatch(setIncome(income));
     setAmount('');
   };
-  // console.log(currency.balance, currency.addmoney);
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#4ba77b" barStyle="light-content" />
+      <StatusBar backgroundColor="#4CAF50" barStyle="light-content" />
       <Title name="Income Tracker" style={styles.title} />
       <Text style={styles.instructionText}>Add Money to track:</Text>
       <View style={styles.inputContainer}>
@@ -43,7 +42,11 @@ const Income = () => {
       </View>
       {amount && amount.toString().trim() ? (
         <View style={styles.button}>
-          <Button title="Add" onPress={buttonhandler} />
+          <Button 
+            title="Add" 
+            onPress={buttonhandler} 
+            color="#2E7D32"
+          />
         </View>
       ) : null}
     </SafeAreaView>
@@ -53,11 +56,11 @@ const Income = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#4ba77b",
+    backgroundColor: "#4CAF50",
     paddingHorizontal: 16,
   },
   title: {
-    backgroundColor: "#38865f",
+    backgroundColor: "#2E7D32",
     borderRadius: 15,
     marginTop: 30,
     marginHorizontal: 30,
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20, // Reduced from 40 since we now have the instruction text
+    marginTop: 20,
   },
   currencySymbol: {
     fontSize: 36,

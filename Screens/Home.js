@@ -19,9 +19,9 @@ export default function Home() {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar backgroundColor="#1a73e8" barStyle="light-content" />
+      <StatusBar backgroundColor="#2196F3" barStyle="light-content" />
       <View style={styles.mainContainer}>
-        <Title name= "WALLET"/>
+        <Title name= "WALLET" style={styles.title}/>
         <View style={styles.balanceContainer}>
           <Text style={styles.balanceLabel}>Current Balance</Text>
           <MoneyAmount />
@@ -30,7 +30,7 @@ export default function Home() {
           <Text style={styles.addHintText}>Tap to Add:</Text>
           <View style={styles.summaryItemsContainer}>
             <Pressable 
-              android_ripple={{color: 'green'}} 
+              android_ripple={{color: 'rgba(76, 175, 80, 0.2)'}} 
               onPress={() => navigation.navigate('Income')} 
               style={styles.summaryItem}
             >
@@ -38,7 +38,7 @@ export default function Home() {
               <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income}</Text>
             </Pressable>
             <Pressable 
-              android_ripple={{color: 'red'}} 
+              android_ripple={{color: 'rgba(231, 76, 60, 0.2)'}} 
               onPress={() => navigation.navigate('Expense')} 
               style={styles.summaryItem}
             >
@@ -55,12 +55,20 @@ export default function Home() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#2196F3",
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: "#1a73e8",
+    backgroundColor: "#2196F3",
     padding: 16,
+  },
+  title: {
+    backgroundColor: "#1976D2",
+    borderRadius: 15,
+    marginTop: 30,
+    marginHorizontal: 30,
+    paddingVertical: 18,
+    elevation: 4,
   },
   balanceContainer: {
     marginTop: 20,
@@ -111,7 +119,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   incomeText: {
-    color: "#4ba77b",
+    color: "#4CAF50",
   },
   expenseText: {
     color: "#e74c3c",

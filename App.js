@@ -26,21 +26,10 @@ function DrawerNavigation() {
           borderBottomRightRadius: 15,
           paddingTop: 10,
         },
-        headerStyle: {
-          backgroundColor: "#4CAF50",
-          elevation: 5,
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-          fontSize: 18,
-        },
         drawerLabelStyle: {
           fontSize: 16,
           marginLeft: -10,
         },
-        drawerActiveBackgroundColor: "#e8f5e9",
-        drawerActiveTintColor: "#2E7D32",
       }}
       initialRouteName= 'Home'
       backBehavior="initialRoute"
@@ -50,27 +39,39 @@ function DrawerNavigation() {
         component={Home}
         options={{
           title: "Home",
+          headerStyle: {
+            backgroundColor: "#2196F3",
+            elevation: 5,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 18,
+          },
+          drawerActiveBackgroundColor: "#e3f2fd",
+          drawerActiveTintColor: "#1976D2",
           drawerIcon: ({ color }) => (
             <Ionicons name="home" size={22} color={color} />
           ),
         }}
       />
-      <Drawer.Screen
-        name="Currency"
-        component={ChooseCurrency}
-        options={{
-          headerShown: true,
-          title: "Change Currency",
-          drawerIcon: ({ color }) => (
-            <Ionicons name="cash-outline" size={22} color={color} />
-          ),
-        }}
-      />
+      
       <Drawer.Screen
         name="Income"
         component={Income}
         options={{
           title: "Add Earning",
+          headerStyle: {
+            backgroundColor: "#4CAF50",
+            elevation: 5,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 18,
+          },
+          drawerActiveBackgroundColor: "#e8f5e9",
+          drawerActiveTintColor: "#2E7D32",
           drawerIcon: ({ color }) => (
             <MaterialCommunityIcons name="cash-plus" size={22} color={color} />
           ),
@@ -81,8 +82,41 @@ function DrawerNavigation() {
         component={Expense}
         options={{
           title: "Add Expense",
+          headerStyle: {
+            backgroundColor: "#e74c3c",
+            elevation: 5,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 18,
+          },
+          drawerActiveBackgroundColor: "#fadbd8",
+          drawerActiveTintColor: "#c0392b",
           drawerIcon: ({ color }) => (
             <MaterialCommunityIcons name="cash-minus" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Currency"
+        component={ChooseCurrency}
+        options={{
+          headerShown: true,
+          title: "Change Currency",
+          headerStyle: {
+            backgroundColor: "#9C27B0",
+            elevation: 5,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 18,
+          },
+          drawerActiveBackgroundColor: "#f3e5f5",
+          drawerActiveTintColor: "#7B1FA2",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="cash-outline" size={22} color={color} />
           ),
         }}
       />
