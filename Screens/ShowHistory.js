@@ -6,32 +6,31 @@ import Title from '../Components/Title';
 const History = () => {
   const currency = useSelector((store) => store.Currency);
   
-  // Combine income and expense tracks with transaction type
+ 
   const allTransactions = [
     ...currency.incometrack.map(item => ({...item, type: 'income'})),
     ...currency.expensetrack.map(item => ({...item, type: 'expense'}))
   ];
   
-  // Create a function to convert date strings to Date objects for sorting
+
   const getDateFromString = (dateStr, timeStr) => {
-    // Check if dateStr and timeStr exist
+   
     if (!dateStr || !timeStr) {
-      // Return a default old date for items without dates
-      return new Date(0); // January 1, 1970
+    
+      return new Date(0); 
     }
     
     try {
-      // Parse date parts properly
+
       const [month, day, year] = dateStr.split('/');
       
-      // Parse time parts
+      
       let hours = 0;
       let minutes = 0;
       let seconds = 0;
       
-      // Handle different time formats
       if (timeStr.includes('AM') || timeStr.includes('PM')) {
-        // 12-hour format (e.g., "10:45:25 PM")
+        
         const timeParts = timeStr.match(/(\d+):(\d+):(\d+)\s?(AM|PM)/i);
         if (timeParts) {
           hours = parseInt(timeParts[1], 10);
