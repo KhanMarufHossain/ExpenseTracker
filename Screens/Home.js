@@ -19,7 +19,7 @@ export default function Home() {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar backgroundColor="#2196F3" barStyle="light-content" />
+      <StatusBar backgroundColor="transparent" translucent={true} barStyle="light-content" />
       <View style={styles.mainContainer}>
         <Title name= "WALLET" style={styles.title}/>
         <View style={styles.balanceContainer}>

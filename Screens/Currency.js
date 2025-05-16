@@ -18,7 +18,7 @@ export default function ChooseCurrency() {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar backgroundColor="transparent" translucent={true} barStyle="light-content" />
       
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Change Currency Code</Text>

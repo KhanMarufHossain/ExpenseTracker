@@ -32,7 +32,7 @@ const Income = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#4CAF50" barStyle="light-content" />
+      <StatusBar backgroundColor="transparent" translucent={true} barStyle="light-content" />
       <Title name="Income Tracker" style={styles.title} />
       <Text style={styles.instructionText}>Add Money to track:</Text>
       <View style={styles.inputContainer}>

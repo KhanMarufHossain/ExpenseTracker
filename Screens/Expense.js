@@ -31,7 +31,7 @@ const Expense = () => {
   
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#e74c3c" barStyle="light-content" />
+      <StatusBar backgroundColor="transparent" translucent={true} barStyle="light-content" />
       <Title name="Expense Count" style={styles.title} />
       <Text style={styles.instructionText}>Spent :</Text>
       <View style={styles.inputContainer}>

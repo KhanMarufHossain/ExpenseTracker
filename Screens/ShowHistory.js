@@ -148,7 +148,7 @@ const History = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#607D8B" barStyle="light-content" />
+      <StatusBar backgroundColor="transparent" translucent={true} barStyle="light-content" />
       <Title name="Transaction History" style={styles.title} />
       
       {sortedTransactions.length > 0 ? (
