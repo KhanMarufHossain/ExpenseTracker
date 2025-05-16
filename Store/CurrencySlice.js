@@ -20,10 +20,12 @@ const CurrencySlice= createSlice({
        
         setIncome: (state, action )=>{
             state.income.number = action.payload.number;
+            state.income.message = action.payload.message;
         }, 
         
         setExpense : (state, action)=>{
            state.expense.number = action.payload.number;
+           state.expense.message = action.payload.message;
         }
     }
 });

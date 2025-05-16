@@ -17,10 +17,13 @@ const Expense = () => {
   const currency = useSelector((store) => store.Currency);
 
   const [amount, setAmount] = useState(0);
+  const [description, setDescription] = useState('');
+  
   const buttonhandler = () => {
     const expense = parseFloat(amount).toFixed(2) + parseFloat(currency.expense.number);
-    dispatch(setExpense({number : expense}));
+    dispatch(setExpense({number: expense, message: description}));
     setAmount('');
+    setDescription('');
   };
   
   return (
@@ -40,6 +43,21 @@ const Expense = () => {
           value={amount}
         />
       </View>
+      
+      {/* Description Input */}
+      <View style={styles.descriptionContainer}>
+        <Text style={styles.descriptionTitle}>Expense description</Text>
+        <TextInput
+          style={styles.descriptionInput}
+          placeholder="What did you spend on?"
+          placeholderTextColor="rgba(255, 255, 255, 0.5)"
+          onChangeText={(text) => setDescription(text)}
+          value={description}
+          multiline={true}
+          maxLength={100}
+        />
+      </View>
+      
       {amount && amount.toString().trim() ? (
         <View style={styles.button}>
           <Button 
@@ -99,6 +117,28 @@ const styles = StyleSheet.create({
     textAlign: "center",
     minWidth: 150,
     paddingBottom: 8,
+  },
+  descriptionContainer: {
+    marginTop: 30,
+    marginHorizontal: 20,
+  },
+  descriptionTitle: {
+    fontSize: 16,
+    color: "#ffffff",
+    fontWeight: "600",
+    marginBottom: 8,
+    letterSpacing: 0.5,
+  },
+  descriptionInput: {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: 10,
+    padding: 12,
+    color: "#fff",
+    fontSize: 16,
+    minHeight: 80,
+    textAlignVertical: 'top',
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.3)",
   },
   button: {
     marginTop: 30,

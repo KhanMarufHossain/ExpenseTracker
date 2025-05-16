@@ -37,7 +37,7 @@ export default function Home() {
               <Text style={styles.summaryLabel}>Income</Text>
               <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income.number}</Text>
             </Pressable>
-            <Pressable 
+            <Pressable
               android_ripple={{color: 'rgba(231, 76, 60, 0.2)'}} 
               onPress={() => navigation.navigate('Expense')} 
               style={styles.summaryItem}
