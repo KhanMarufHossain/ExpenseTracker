@@ -49,7 +49,7 @@ function DrawerNavigation() {
         name="Home"
         component={Home}
         options={{
-          title: "Expense Tracker",
+          title: "Home",
           drawerIcon: ({ color }) => (
             <Ionicons name="home" size={22} color={color} />
           ),

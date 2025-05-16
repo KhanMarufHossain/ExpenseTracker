@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { addmoney, setBalance } from "../Store/CurrencySlice";
+import { setIncome } from "../Store/CurrencySlice";
 
 const Income = () => {
   const dispatch = useDispatch();
@@ -18,12 +18,11 @@ const Income = () => {
 
   const [amount, setAmount] = useState(0);
   const buttonhandler = () => {
-    dispatch(addmoney(amount));
-    const balance = parseInt(amount) + parseInt(currency.balance);
-    dispatch(setBalance(balance));
+    const income = parseInt(amount) + parseInt(currency.income);
+    dispatch(setIncome(income));
     setAmount('');
   };
-  console.log(currency.balance, currency.addmoney);
+  // console.log(currency.balance, currency.addmoney);
 
   return (
     <SafeAreaView style={styles.container}>

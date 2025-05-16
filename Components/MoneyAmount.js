@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
-export default function MoneyAmount({ money = "0.00" }) {
+export default function MoneyAmount() {
   
   const Currency= useSelector((store)=>store.Currency);
   
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.currencycode}>{Currency.code}</Text>
-      <Text style={styles.moneyText}>{money}</Text>
+      <Text style={styles.moneyText}>{Currency.income}</Text>
     </View>
   );
 }

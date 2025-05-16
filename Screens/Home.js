@@ -5,16 +5,18 @@ import {
   SafeAreaView,
   StatusBar,
   useWindowDimensions,
+  Pressable,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import Title from "../Components/Title";
 import MoneyAmount from "../Components/MoneyAmount";
+import { useSelector } from "react-redux";
 
 export default function Home() {
-  
+  const Currency = useSelector(store=>store.Currency);
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
-  
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar backgroundColor="#1a73e8" barStyle="light-content" />
@@ -25,14 +27,14 @@ export default function Home() {
           <MoneyAmount />
         </View>
         <View style={styles.summaryContainer}>
-          <View style={styles.summaryItem}>
+          <Pressable android_ripple={{color: 'green'}} onPress={()=>navigation.navigate('Income')} style={styles.summaryItem}>
             <Text style={styles.summaryLabel}>Income</Text>
-            <Text style={[styles.summaryValue, styles.incomeText]}>+$0.00</Text>
-          </View>
-          <View style={styles.summaryItem}>
+            <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income}</Text>
+          </Pressable>
+          <Pressable style={styles.summaryItem}>
             <Text style={styles.summaryLabel}>Expenses</Text>
             <Text style={[styles.summaryValue, styles.expenseText]}>-$0.00</Text>
-          </View>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>
@@ -69,10 +71,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 20,
     justifyContent: "space-between",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    
     elevation: 3,
   },
   summaryItem: {
