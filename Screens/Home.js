@@ -27,15 +27,25 @@ export default function Home() {
           <MoneyAmount />
         </View>
         <View style={styles.summaryContainer}>
-          <Text>Tap to Add: </Text>
-          <Pressable android_ripple={{color: 'green'}} onPress={()=>navigation.navigate('Income')} style={styles.summaryItem}>
-            <Text style={styles.summaryLabel}>Income</Text>
-            <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income}</Text>
-          </Pressable>
-          <Pressable android_ripple={{color: 'red'}} onPress={()=>navigation.navigate('Expense')} style={styles.summaryItem}>
-            <Text style={styles.summaryLabel}>Expenses</Text>
-            <Text style={[styles.summaryValue, styles.expenseText]}>-{Currency.expense}</Text>
-          </Pressable>
+          <Text style={styles.addHintText}>Tap to Add:</Text>
+          <View style={styles.summaryItemsContainer}>
+            <Pressable 
+              android_ripple={{color: 'green'}} 
+              onPress={() => navigation.navigate('Income')} 
+              style={styles.summaryItem}
+            >
+              <Text style={styles.summaryLabel}>Income</Text>
+              <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income}</Text>
+            </Pressable>
+            <Pressable 
+              android_ripple={{color: 'red'}} 
+              onPress={() => navigation.navigate('Expense')} 
+              style={styles.summaryItem}
+            >
+              <Text style={styles.summaryLabel}>Expenses</Text>
+              <Text style={[styles.summaryValue, styles.expenseText]}>-{Currency.expense}</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -65,19 +75,31 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   summaryContainer: {
-    flexDirection: "row",
     backgroundColor: "#fff",
     borderRadius: 15,
     padding: 20,
     marginHorizontal: 10,
     marginTop: 20,
-    justifyContent: "space-between",
-    
     elevation: 3,
+  },
+  addHintText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#555",
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  summaryItemsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   summaryItem: {
     flex: 1,
     alignItems: "center",
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginHorizontal: 5,
+    backgroundColor: "#f8f9fa",
   },
   summaryLabel: {
     fontSize: 14,
