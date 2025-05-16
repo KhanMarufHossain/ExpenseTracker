@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { setBalance } from '../Store/CurrencySlice';
+import { addmoney } from '../Store/CurrencySlice';
 
 const Income = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,8 @@ const Income = () => {
   
   const [amount, setAmount] = useState(0);
   const buttonhandler = () => {
-    dispatch(setBalance(amount));
+    dispatch(addmoney(amount));
+    
   };
   
   return (

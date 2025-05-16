@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 export default function MoneyAmount({ money = "0.00" }) {
   
   const Currency= useSelector((store)=>store.Currency);
+  
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.currencycode}>{Currency.code}</Text>
