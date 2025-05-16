@@ -19,7 +19,7 @@ export default function Home() {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar backgroundColor="#1a73e8" barStyle="light-content" />
       <View style={styles.mainContainer}>
-        <Title/>
+        <Title name= "WALLET"/>
         <View style={styles.balanceContainer}>
           <Text style={styles.balanceLabel}>Current Balance</Text>
           <MoneyAmount />
