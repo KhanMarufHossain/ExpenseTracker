@@ -35,7 +35,7 @@ export default function Home() {
               style={styles.summaryItem}
             >
               <Text style={styles.summaryLabel}>Income</Text>
-              <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income}</Text>
+              <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income.number}</Text>
             </Pressable>
             <Pressable 
               android_ripple={{color: 'rgba(231, 76, 60, 0.2)'}} 
@@ -43,7 +43,7 @@ export default function Home() {
               style={styles.summaryItem}
             >
               <Text style={styles.summaryLabel}>Expenses</Text>
-              <Text style={[styles.summaryValue, styles.expenseText]}>-{Currency.expense}</Text>
+              <Text style={[styles.summaryValue, styles.expenseText]}>-{(Currency.expense.number)}</Text>
             </Pressable>
           </View>
         </View>

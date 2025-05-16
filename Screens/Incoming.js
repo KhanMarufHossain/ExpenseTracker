@@ -18,8 +18,9 @@ const Income = () => {
 
   const [amount, setAmount] = useState(0);
   const buttonhandler = () => {
-    const income = parseInt(amount) + parseInt(currency.income);
-    dispatch(setIncome(income));
+    let  income = parseFloat(amount).toFixed(2) + parseFloat(currency.income.number);
+    
+    dispatch(setIncome({number: income}));
     setAmount('');
   };
 

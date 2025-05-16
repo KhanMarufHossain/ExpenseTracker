@@ -18,8 +18,8 @@ const Expense = () => {
 
   const [amount, setAmount] = useState(0);
   const buttonhandler = () => {
-    const expense = parseInt(amount) + parseInt(currency.expense);
-    dispatch(setExpense(expense));
+    const expense = parseFloat(amount).toFixed(2) + parseFloat(currency.expense.number);
+    dispatch(setExpense({number : expense}));
     setAmount('');
   };
   

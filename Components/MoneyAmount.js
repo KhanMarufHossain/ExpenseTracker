@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 export default function MoneyAmount() {
   
   const Currency = useSelector((store) => store.Currency);
-  const Balance = Currency.income - Currency.expense;
+  const Balance = (Currency.income.number - Currency.expense.number).toFixed(2);
   const isNegative = Balance < 0;
   
   return (

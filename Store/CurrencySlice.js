@@ -4,8 +4,12 @@ const CurrencySlice= createSlice({
     name: "currency",
     initialState: {
         code: 'USD',
-        income : 0,
-        expense : 0, 
+        income : {
+            number: 0, message: ''
+        },
+        expense : {
+            number: 0, message: ''
+        }, 
         
     },
     reducers: 
@@ -15,11 +19,11 @@ const CurrencySlice= createSlice({
         },
        
         setIncome: (state, action )=>{
-            state.income = action.payload;
+            state.income.number = action.payload.number;
         }, 
         
         setExpense : (state, action)=>{
-           state.expense = action.payload;
+           state.expense.number = action.payload.number;
         }
     }
 });
