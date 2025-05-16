@@ -12,6 +12,7 @@ import Income from "./Screens/Incoming.js";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Expense from './Screens/Expense.js';
 const Stack = createNativeStackNavigator();
+import History from "./Screens/ShowHistory.js";
 const Drawer = createDrawerNavigator();
 function DrawerNavigation() {
   const currency = useSelector((store) => store.Currency);
@@ -95,6 +96,27 @@ function DrawerNavigation() {
           drawerActiveTintColor: "#c0392b",
           drawerIcon: ({ color }) => (
             <MaterialCommunityIcons name="cash-minus" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen  
+        name="history" 
+        component={History}
+        options={{
+          title: "Transaction History",
+          headerStyle: {
+            backgroundColor: "#607D8B",
+            elevation: 5,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 18,
+          },
+          drawerActiveBackgroundColor: "#ECEFF1",
+          drawerActiveTintColor: "#455A64",
+          drawerIcon: ({ color }) => (
+            <MaterialCommunityIcons name="history" size={22} color={color} />
           ),
         }}
       />

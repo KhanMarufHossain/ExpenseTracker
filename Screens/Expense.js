@@ -20,10 +20,11 @@ const Expense = () => {
   const [description, setDescription] = useState('');
   
  const buttonhandler = () => {
-  // Convert to numbers, add them, then format the result
+  const currentDate = new Date().toLocaleDateString();
+  const currentTime = new Date().toLocaleTimeString();
   const expense = (parseFloat(amount) + parseFloat(currency.expense.number)).toFixed(2);
   dispatch(setExpense({number: expense}));
-  dispatch(updateExpenseTrack({amount : amount, message: description}));
+  dispatch(updateExpenseTrack({amount : amount, message: description, date: currentDate, time : currentTime}));
   setAmount('');
   setDescription('');
 };
@@ -46,7 +47,7 @@ const Expense = () => {
         />
       </View>
       
-      {/* Description Input */}
+     
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionTitle}>Expense description</Text>
         <TextInput

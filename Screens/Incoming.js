@@ -20,12 +20,14 @@ const Income = () => {
   const [description, setDescription] = useState('');
   
   const buttonhandler = () => {
-  // Convert to numbers, add them, then format the result
+  const currentDate = new Date().toLocaleDateString();
+  const currentTime = new Date().toLocaleTimeString();
   let income = (parseFloat(amount) + parseFloat(currency.income.number)).toFixed(2);
   dispatch(setIncome({number: income}));
-  dispatch(updateIncomeTrack({amount : amount, message: description}));
+  dispatch(updateIncomeTrack({amount : amount, message: description, date: currentDate, time : currentTime }));
   setAmount('');
   setDescription('');
+  
 };
 
   return (
