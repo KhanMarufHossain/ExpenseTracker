@@ -7,14 +7,20 @@ import {
   TextInput,
   Button,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { useSelector } from "react-redux";
+import { setBalance } from '../Store/CurrencySlice';
 
 const Income = () => {
+  const dispatch = useDispatch();
   const currency = useSelector((store) => store.Currency);
+  
   const [amount, setAmount] = useState(0);
-  const addmoneyHandler = () => {};
+  const buttonhandler = () => {
+    dispatch(setBalance(amount));
+  };
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#4ba77b" barStyle="light-content" />
@@ -33,7 +39,7 @@ const Income = () => {
       </View>
       {amount && amount.toString().trim() ? (
         <View style={styles.button}>
-          <Button title="nothing" />
+          <Button title="nothing" onPress={buttonhandler} />
         </View>
       ) : null}
     </SafeAreaView>

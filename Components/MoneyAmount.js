@@ -21,11 +21,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     paddingVertical: 22,
     paddingHorizontal: 40,
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
+    elevation: 4,// shadow for ios
     flexDirection: "row",
   },
   currencycode: {
