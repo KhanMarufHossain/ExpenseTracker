@@ -5,11 +5,14 @@ const CurrencySlice= createSlice({
     initialState: {
         code: 'USD',
         income : {
-            number: 0, message: ''
+            number: 0, 
         },
         expense : {
-            number: 0, message: ''
+            number: 0, 
         }, 
+        
+        incometrack : [],
+        expensetrack: [],
         
     },
     reducers: 
@@ -20,15 +23,22 @@ const CurrencySlice= createSlice({
        
         setIncome: (state, action )=>{
             state.income.number = action.payload.number;
-            state.income.message = action.payload.message;
+            
         }, 
         
         setExpense : (state, action)=>{
            state.expense.number = action.payload.number;
-           state.expense.message = action.payload.message;
+           
+        },
+        updateIncomeTrack: (state, action)=>{
+            state.incometrack = [...state.incometrack, action.payload]
+        },
+        updateExpenseTrack : (state, action)=>{
+            state.expensetrack = [...state.expensetrack,action.payload]
         }
+        
     }
 });
 
 export default CurrencySlice.reducer;
-export const {setCurrencyCode, setIncome, setExpense}  = CurrencySlice.actions;
+export const {setCurrencyCode, setIncome, setExpense, updateIncomeTrack,updateExpenseTrack}  = CurrencySlice.actions;

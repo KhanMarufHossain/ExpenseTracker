@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { setIncome } from "../Store/CurrencySlice";
+import { setIncome, updateIncomeTrack } from "../Store/CurrencySlice";
 
 const Income = () => {
   const dispatch = useDispatch();
@@ -20,11 +20,13 @@ const Income = () => {
   const [description, setDescription] = useState('');
   
   const buttonhandler = () => {
-    let  income = parseFloat(amount).toFixed(2) + parseFloat(currency.income.number);
-    dispatch(setIncome({number: income, messaage: description}));
-    setAmount('');
-    setDescription('');
-  };
+  // Convert to numbers, add them, then format the result
+  let income = (parseFloat(amount) + parseFloat(currency.income.number)).toFixed(2);
+  dispatch(setIncome({number: income}));
+  dispatch(updateIncomeTrack({amount : amount, message: description}));
+  setAmount('');
+  setDescription('');
+};
 
   return (
     <SafeAreaView style={styles.container}>

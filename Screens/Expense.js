@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { setExpense } from "../Store/CurrencySlice";
+import { setExpense,updateExpenseTrack } from "../Store/CurrencySlice";
 
 const Expense = () => {
   const dispatch = useDispatch();
@@ -19,12 +19,14 @@ const Expense = () => {
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState('');
   
-  const buttonhandler = () => {
-    const expense = parseFloat(amount).toFixed(2) + parseFloat(currency.expense.number);
-    dispatch(setExpense({number: expense, message: description}));
-    setAmount('');
-    setDescription('');
-  };
+ const buttonhandler = () => {
+  // Convert to numbers, add them, then format the result
+  const expense = (parseFloat(amount) + parseFloat(currency.expense.number)).toFixed(2);
+  dispatch(setExpense({number: expense}));
+  dispatch(updateExpenseTrack({amount : amount, message: description}));
+  setAmount('');
+  setDescription('');
+};
   
   return (
     <SafeAreaView style={styles.container}>
