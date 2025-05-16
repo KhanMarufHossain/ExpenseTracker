@@ -2,13 +2,11 @@ import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
 export default function MoneyAmount({ money = "0.00" }) {
-  // Optional: Get currency from Redux if you've set it up
-  // const currency = useSelector(state => state.Currency);
-  // const currencySymbol = currency?.code || "$";
+  
   const Currency= useSelector((store)=>store.Currency);
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.currencySymbol}>{Currency.code}</Text>
+      <Text style={styles.currencycode}>{Currency.code}</Text>
       <Text style={styles.moneyText}>{money}</Text>
     </View>
   );
@@ -30,15 +28,15 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     flexDirection: "row",
   },
-  currencySymbol: {
-    fontSize: 30,
+  currencycode: {
+    fontSize: 20,
     fontWeight: "bold",
     color: "#fff",
     marginRight: 5,
     opacity: 0.9,
   },
   moneyText: {
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: "bold",
     color: "#fff",
     letterSpacing: 1,
