@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
 
 function AboutScreen() {
-  // Function to handle opening URLs
+ 
   const openURL = (url) => {
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
@@ -34,7 +34,7 @@ function AboutScreen() {
         <Text style={styles.sectionTitle}>Contact</Text>
         <Text style={styles.text}>Email - khan.hossain.242@northsouth.edu</Text>
         
-        {/* LinkedIn link with TouchableOpacity */}
+       
         <View style={styles.linkContainer}>
           <Text style={styles.linkLabel}>LinkedIn - </Text>
           <TouchableOpacity 
