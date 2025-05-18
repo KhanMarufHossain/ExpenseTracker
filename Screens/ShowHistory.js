@@ -1,274 +1,146 @@
-import { View, Text, StyleSheet, FlatList, SafeAreaView, StatusBar } from 'react-native';
 import React from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  FlatList, 
+  SafeAreaView, 
+  StatusBar 
+} from 'react-native';
 import { useSelector } from 'react-redux';
-import Title from '../Components/Title';
 
-const History = () => {
-  const currency = useSelector((store) => store.Currency);
+export default function History() {
+  const { transactiontrack, code } = useSelector((store) => store.Currency);
   
- 
-  const allTransactions = [
-    ...currency.incometrack.map(item => ({...item, type: 'income'})),
-    ...currency.expensetrack.map(item => ({...item, type: 'expense'}))
-  ];
-  
-
-  const getDateFromString = (dateStr, timeStr) => {
-   
-    if (!dateStr || !timeStr) {
-    
-      return new Date(0); 
-    }
-    
-    try {
-
-      const [month, day, year] = dateStr.split('/');
-      
-      
-      let hours = 0;
-      let minutes = 0;
-      let seconds = 0;
-      
-      if (timeStr.includes('AM') || timeStr.includes('PM')) {
-        
-        const timeParts = timeStr.match(/(\d+):(\d+):(\d+)\s?(AM|PM)/i);
-        if (timeParts) {
-          hours = parseInt(timeParts[1], 10);
-          minutes = parseInt(timeParts[2], 10);
-          seconds = parseInt(timeParts[3], 10);
-          
-          
-          if (timeParts[4].toUpperCase() === 'PM' && hours < 12) {
-            hours += 12;
-          }
-          
-          if (timeParts[4].toUpperCase() === 'AM' && hours === 12) {
-            hours = 0;
-          }
-        }
-      } else {
-        
-        const timeParts = timeStr.match(/(\d+):(\d+):(\d+)/);
-        if (timeParts) {
-          hours = parseInt(timeParts[1], 10);
-          minutes = parseInt(timeParts[2], 10);
-          seconds = parseInt(timeParts[3], 10);
-        }
-      }
-      
-      
-      return new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10), hours, minutes, seconds);
-      
-    } catch (error) {
-      console.log("Date parsing error:", error);
-      return new Date(0);
-    }
-  };    
-  const sortedTransactions = [...allTransactions].sort((a, b) => {
-    
-    if (!a.date || !a.time) return 1;  
-    if (!b.date || !b.time) return -1; 
-    
-    try {
-      const dateA = getDateFromString(a.date, a.time);
-      const dateB = getDateFromString(b.date, b.time);
-      
-      
-      
-      return dateB - dateA; 
-    } catch (error) {
-      console.log("Sorting error:", error);
-      return 0;
-    }
-  });
-
-  
-  const groupedTransactions = sortedTransactions.reduce((groups, transaction) => {
-    
-    if (!transaction.date) return groups;
-    
-    if (!groups[transaction.date]) {
-      groups[transaction.date] = [];
-    }
-    groups[transaction.date].push(transaction);
-    return groups;
-  }, {});
-  
-  const groupedData = Object.entries(groupedTransactions).map(([date, transactions]) => {
-   
-    const sortedByTime = [...transactions].sort((a, b) => {
-      if (!a.time || !b.time) return 0;
-      const timeA = getDateFromString(a.date, a.time);
-      const timeB = getDateFromString(b.date, b.time);
-      return timeA - timeB; 
-    });
-    
-    return {
-      date,
-      transactions: sortedByTime
-    };
-  });
-
-  const renderTransactionItem = ({ item }) => (
-    <View style={[
-      styles.transactionItem, 
-      item.type === 'income' ? styles.incomeItem : styles.expenseItem
-    ]}>
-      <View style={styles.transactionHeader}>
-        <Text style={[
-          styles.amountText,
-          item.type === 'income' ? styles.incomeAmountText : styles.expenseAmountText
-        ]}>
-          {item.type === 'income' ? '+' : '-'} {currency.code} {
-            item.amount ? parseFloat(item.amount).toFixed(2) : "0.00"
-          }
-        </Text>
-        <Text style={styles.timeText}>{item.time || "No time"}</Text>
-      </View>
-      {item.message ? (
-        <Text style={styles.descriptionText}>{item.message}</Text>
-      ) : null}
+  const renderEmptyList = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No transactions yet</Text>
+      <Text style={styles.emptySubText}>Add income or expenses to see your transaction history</Text>
     </View>
   );
 
-  const renderDateGroup = ({ item }) => (
-    <View style={styles.dateGroup}>
-      <View style={styles.dateHeader}>
-        <Text style={styles.dateText}>{item.date}</Text>
-        <View style={styles.dateLine} />
+  const renderItem = ({ item }) => (
+    <View style={[
+      styles.transactionItem,
+      item.isIncome ? styles.incomeItem : styles.expenseItem,
+    ]}>
+      <View style={styles.transactionContent}>
+        <Text style={styles.description} numberOfLines={1}>
+          {item.message}
+        </Text>
+        <Text style={[
+          styles.amount,
+          item.isIncome ? styles.incomeAmount : styles.expenseAmount
+        ]}>
+          {item.isIncome ? '+' : '-'} {code} {parseFloat(item.amount).toFixed(2)}
+        </Text>
       </View>
-      <FlatList
-        data={item.transactions}
-        keyExtractor={(item, index) => `transaction-${index}`}
-        renderItem={renderTransactionItem}
-        scrollEnabled={false}
-      />
+      <Text style={styles.time}>{item.time}</Text>
     </View>
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="transparent" translucent={true} barStyle="light-content" />
-      <Title name="Transaction History" style={styles.title} />
+      <StatusBar barStyle="light-content" />
       
-      {sortedTransactions.length > 0 ? (
-        <FlatList
-          data={groupedData}
-          keyExtractor={(item) => `date-${item.date}`}
-          renderItem={renderDateGroup}
-          contentContainerStyle={styles.listContainer}
-        />
-      ) : (
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyStateText}>No transactions yet</Text>
-          <Text style={styles.emptyStateSubtext}>
-            Your transaction history will appear here
-          </Text>
-        </View>
-      )}
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}>Transaction History</Text>
+      </View>
+      
+      <FlatList
+        data={transactiontrack}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={renderItem}
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={renderEmptyList}
+      />
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  title: {
+  titleContainer: {
     backgroundColor: '#607D8B',
+    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 15,
+    marginHorizontal: 15,
     borderRadius: 15,
-    marginTop: 20,
-    marginHorizontal: 30,
-    paddingVertical: 18,
-    elevation: 4,
+    elevation: 2,
+  },
+  titleText: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#fff',
   },
   listContainer: {
     padding: 16,
-    paddingBottom: 30,
-  },
-  dateGroup: {
-    marginBottom: 20,
-  },
-  dateHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-    marginTop: 8,
-  },
-  dateText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#607D8B',
-    marginRight: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: '#ECEFF1',
-    borderRadius: 4,
-  },
-  dateLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#CFD8DC',
+    paddingBottom: 24,
   },
   transactionItem: {
-    padding: 16,
     borderRadius: 12,
-    marginBottom: 10,
-    elevation: 2,
-    marginHorizontal: 4,
+    marginBottom: 12,
+    padding: 16,
+    elevation: 1,
+    borderLeftWidth: 5,
   },
   incomeItem: {
-    backgroundColor: '#E8F5E9',
-    borderLeftWidth: 4,
+    backgroundColor: '#e8f5e9',
     borderLeftColor: '#4CAF50',
   },
   expenseItem: {
-    backgroundColor: '#FFEBEE',
-    borderLeftWidth: 4,
-    borderLeftColor: '#E74C3C',
+    backgroundColor: '#ffebee',
+    borderLeftColor: '#E53935',
   },
-  transactionHeader: {
+  transactionContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
   },
-  amountText: {
+  description: {
+    fontSize: 16,
+    fontWeight: '500',
+    flex: 1,
+    color: '#37474F',
+  },
+  amount: {
     fontSize: 18,
     fontWeight: 'bold',
   },
-  incomeAmountText: {
+  incomeAmount: {
     color: '#4CAF50',
   },
-  expenseAmountText: {
-    color: '#E74C3C',
+  expenseAmount: {
+    color: '#E53935',
   },
-  timeText: {
-    fontSize: 12,
-    color: '#757575',
+  time: {
+    fontSize: 13,
+    color: '#78909C',
+    textAlign: 'right',
   },
-  descriptionText: {
-    fontSize: 14,
-    color: '#424242',
-  },
-  emptyState: {
+  emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 40,
   },
-  emptyStateText: {
+  emptyText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#757575',
+    color: '#546E7A',
     marginBottom: 8,
   },
-  emptyStateSubtext: {
+  emptySubText: {
     fontSize: 14,
-    color: '#9E9E9E',
+    color: '#78909C',
     textAlign: 'center',
-  },
+    paddingHorizontal: 24,
+  }
 });
-
-export default History;

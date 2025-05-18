@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 import Home from "./Screens/Home";
 import ChooseCurrency from "./Screens/Currency";
 import { Store } from "./Store/store.js";
@@ -14,6 +14,10 @@ import Expense from './Screens/Expense.js';
 const Stack = createNativeStackNavigator();
 import History from "./Screens/ShowHistory.js";
 const Drawer = createDrawerNavigator();
+import React, { useState, useEffect } from 'react';
+import { loadPersistedState } from './Store/persistenceMiddleware.js';
+import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from './Store/CurrencySlice.js';
+
 function DrawerNavigation() {
   const currency = useSelector((store) => store.Currency);
   
@@ -148,6 +152,41 @@ function DrawerNavigation() {
 }
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadState = async () => {
+      const persistedState = await loadPersistedState();
+      
+      if (persistedState) {
+        // Restore the persisted state to the Redux store
+        Store.dispatch(setCurrencyCode(persistedState.code));
+        Store.dispatch(setIncome({number: persistedState.income.number}));
+        Store.dispatch(setExpense({number: persistedState.expense.number}));
+        
+        // Restore transaction history
+        if (persistedState.transactiontrack && persistedState.transactiontrack.length > 0) {
+          persistedState.transactiontrack.forEach(transaction => {
+            Store.dispatch(updateTransactionTrack(transaction));
+          });
+        }
+      }
+      
+      setIsLoading(false);
+    };
+
+    loadState();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#2196F3" />
+        <Text style={styles.loadingText}>Loading your data...</Text>
+      </View>
+    );
+  }
+
   return (
     <Provider store={Store}>
       <NavigationContainer>
@@ -165,4 +204,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#2196F3",
+  }
 });
