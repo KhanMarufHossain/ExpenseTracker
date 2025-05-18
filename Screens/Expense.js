@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { setExpense,updateExpenseTrack } from "../Store/CurrencySlice";
+import { setExpense,updateTransactionTrack } from "../Store/CurrencySlice";
 
 const Expense = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Expense = () => {
   const currentTime = new Date().toLocaleTimeString();
   const expense = (parseFloat(amount) + parseFloat(currency.expense.number)).toFixed(2);
   dispatch(setExpense({number: expense}));
-  dispatch(updateExpenseTrack({amount : amount, message: description, date: currentDate, time : currentTime}));
+  dispatch(updateTransactionTrack({amount : amount, message: description, date: currentDate, time : currentTime, isIncome: false}));
   setAmount('');
   setDescription('');
 };
