@@ -6,28 +6,47 @@ import {
   StatusBar,
   TextInput,
   Button,
+  Alert
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { setExpense,updateTransactionTrack } from "../Store/CurrencySlice";
+import { setExpense, updateTransactionTrack } from "../Store/CurrencySlice";
 
 const Expense = () => {
   const dispatch = useDispatch();
   const currency = useSelector((store) => store.Currency);
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   
- const buttonhandler = () => {
-  const currentDate = new Date().toLocaleDateString();
-  const currentTime = new Date().toLocaleTimeString();
-  const expense = (parseFloat(amount) + parseFloat(currency.expense.number)).toFixed(2);
-  dispatch(setExpense({number: expense}));
-  dispatch(updateTransactionTrack({amount : amount, message: description, date: currentDate, time : currentTime, isIncome: false}));
-  setAmount('');
-  setDescription('');
-};
+  const buttonhandler = () => {
+    
+    const numAmount = parseFloat(amount);
+    
+    if (isNaN(numAmount) || numAmount <= 0) {
+      Alert.alert("Invalid Input", "Please enter a positive number.");
+      return;
+    }
+    
+    const currentDate = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString();
+    
+    
+    const expense = (numAmount + parseFloat(currency.expense.number || 0)).toFixed(2);
+    
+    dispatch(setExpense({number: expense}));
+    dispatch(updateTransactionTrack({
+      amount: numAmount.toFixed(2), 
+      message: description, 
+      date: currentDate, 
+      time: currentTime, 
+      isIncome: false
+    }));
+    
+    setAmount('');
+    setDescription('');
+  };
   
   return (
     <SafeAreaView style={styles.container}>
@@ -38,8 +57,8 @@ const Expense = () => {
         <Text style={styles.currencySymbol}>{currency.code}</Text>
         <TextInput
           style={styles.textInput}
-          maxLength={8}
-          keyboardType="number-pad"
+          maxLength={10}
+          keyboardType="decimal-pad"
           placeholder="0.00"
           placeholderTextColor="rgba(255, 255, 255, 0.5)"
           onChangeText={(text) => setAmount(text)}
@@ -47,7 +66,6 @@ const Expense = () => {
         />
       </View>
       
-     
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionTitle}>Expense description</Text>
         <TextInput
@@ -61,15 +79,13 @@ const Expense = () => {
         />
       </View>
       
-      {amount && amount.toString().trim() ? (
-        <View style={styles.button}>
-          <Button 
-            title="Add" 
-            onPress={buttonhandler} 
-            color="#c0392b" 
-          />
-        </View>
-      ) : null}
+      <View style={styles.button}>
+        <Button 
+          title="Add" 
+          onPress={buttonhandler} 
+          color="#c0392b" 
+        />
+      </View>
     </SafeAreaView>
   );
 };

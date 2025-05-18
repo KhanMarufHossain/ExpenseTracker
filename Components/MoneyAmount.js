@@ -2,22 +2,29 @@ import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
 export default function MoneyAmount() {
-  
   const Currency = useSelector((store) => store.Currency);
-  const Balance = (Currency.income.number - Currency.expense.number).toFixed(2);
-  const isNegative = Balance < 0;
+  
+  const incomeNumber = parseFloat(Currency?.income?.number || 0);
+  const expenseNumber = parseFloat(Currency?.expense?.number || 0);
+  
+  const balance = (incomeNumber - expenseNumber).toFixed(2);
+  const isNegative = parseFloat(balance) < 0;
+  
+  const displayBalance = isNegative ? 
+    `-${Math.abs(parseFloat(balance)).toFixed(2)}` : 
+    balance;
   
   return (
     <View style={[
       styles.mainContainer, 
-      isNegative ? styles.negativeContainer : null
+      isNegative ? styles.negativeContainer : styles.positiveContainer
     ]}>
-      <Text style={styles.currencycode}>{Currency.code}</Text>
+      <Text style={styles.currencycode}>{Currency?.code || 'USD'}</Text>
       <Text style={[
         styles.moneyText, 
-        isNegative ? styles.negativeText : null
+        isNegative ? styles.negativeText : styles.positiveText
       ]}>
-        {isNegative ? `-${Math.abs(Balance)}` : Balance}
+        {displayBalance}
       </Text>
     </View>
   );
@@ -25,33 +32,34 @@ export default function MoneyAmount() {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: "#1976D2",
-    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderRadius: 15,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 30,
-    paddingVertical: 22,
-    paddingHorizontal: 40,
-    elevation: 4,
-    flexDirection: "row",
+    marginVertical: 10,
+  },
+  positiveContainer: {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   negativeContainer: {
-    backgroundColor: "#d32f2f",
+    backgroundColor: "rgba(231, 76, 60, 0.2)",
   },
   currencycode: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
-    marginRight: 5,
-    opacity: 0.9,
+    color: "#ffffff",
+    marginRight: 8,
   },
   moneyText: {
-    fontSize: 40,
+    fontSize: 36,
     fontWeight: "bold",
-    color: "#fff",
-    letterSpacing: 1,
+  },
+  positiveText: {
+    color: "#ffffff",
   },
   negativeText: {
-    color: "#ffcdd2",
+    color: "#ffccbc",
   },
 });

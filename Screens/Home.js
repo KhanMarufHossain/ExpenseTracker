@@ -13,10 +13,14 @@ import MoneyAmount from "../Components/MoneyAmount";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  const Currency = useSelector(store=>store.Currency);
+  const Currency = useSelector(store => store.Currency);
   const { width, height } = useWindowDimensions();
   const isPortrait = height > width;
   const navigation = useNavigation();
+  
+  const incomeValue = parseFloat(Currency?.income?.number || 0).toFixed(2);
+  const expenseValue = parseFloat(Currency?.expense?.number || 0).toFixed(2);
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar backgroundColor="transparent" translucent={true} barStyle="light-content" />
@@ -24,7 +28,7 @@ export default function Home() {
         <Title name= "WALLET" style={styles.title}/>
         <View style={styles.balanceContainer}>
           <Text style={styles.balanceLabel}>Current Balance</Text>
-          <MoneyAmount /> {/* Here we show the wallet balance */}
+          <MoneyAmount />
         </View>
         <View style={styles.summaryContainer}>
           <Text style={styles.addHintText}>Tap to Add:</Text>
@@ -35,7 +39,9 @@ export default function Home() {
               style={styles.summaryItem}
             >
               <Text style={styles.summaryLabel}>Income</Text>
-              <Text style={[styles.summaryValue, styles.incomeText]}>+{Currency.income.number}</Text>
+              <Text style={[styles.summaryValue, styles.incomeText]}>
+                {`+${incomeValue}`}
+              </Text>
             </Pressable>
             <Pressable
               android_ripple={{color: 'rgba(231, 76, 60, 0.2)'}} 
@@ -43,7 +49,9 @@ export default function Home() {
               style={styles.summaryItem}
             >
               <Text style={styles.summaryLabel}>Expenses</Text>
-              <Text style={[styles.summaryValue, styles.expenseText]}>-{(Currency.expense.number)}</Text>
+              <Text style={[styles.summaryValue, styles.expenseText]}>
+                {`-${expenseValue}`}
+              </Text>
             </Pressable>
           </View>
         </View>

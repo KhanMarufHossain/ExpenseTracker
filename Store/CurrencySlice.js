@@ -10,32 +10,30 @@ const CurrencySlice= createSlice({
         expense : {
             number: 0, 
         }, 
-        
-       transactiontrack : [],
-        
+        transactiontrack : [],
     },
     reducers: 
     {
         setCurrencyCode: (state, action)=>{
             state.code = action.payload;
         },
-       
-        setIncome: (state, action )=>{
-            state.income.number = action.payload.number;
-            
+         setIncome: (state, action)=>{
+            state.income.number = parseFloat(action.payload.number);
         }, 
         
-        setExpense : (state, action)=>{
-           state.expense.number = action.payload.number;
-           
+        setExpense: (state, action)=>{
+           state.expense.number = parseFloat(action.payload.number);
         },
         
         updateTransactionTrack: (state, action)=>{
-            state.transactiontrack= [...state.transactiontrack, action.payload];
-        }
+            state.transactiontrack = [...state.transactiontrack, action.payload];
+        },
         
+        clearTransactions: (state) => {
+            state.transactiontrack = [];
+        }
     }
 });
 
 export default CurrencySlice.reducer;
-export const {setCurrencyCode, setIncome, setExpense, updateTransactionTrack}  = CurrencySlice.actions;
+export const {setCurrencyCode, setIncome, setExpense, updateTransactionTrack, clearTransactions} = CurrencySlice.actions;

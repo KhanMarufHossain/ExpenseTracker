@@ -6,6 +6,7 @@ import {
   StatusBar,
   TextInput,
   Button,
+  Alert
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
@@ -16,19 +17,36 @@ const Income = () => {
   const dispatch = useDispatch();
   const currency = useSelector((store) => store.Currency);
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   
   const buttonhandler = () => {
-  const currentDate = new Date().toLocaleDateString();
-  const currentTime = new Date().toLocaleTimeString();
-  let income = (parseFloat(amount) + parseFloat(currency.income.number)).toFixed(2);
-  dispatch(setIncome({number: income}));
-  dispatch(updateTransactionTrack({amount : amount, message: description, date: currentDate, time : currentTime, isIncome : true }));
-  setAmount('');
-  setDescription('');
-  
-};
+    
+    const numAmount = parseFloat(amount);
+    
+    if (isNaN(numAmount) || numAmount <= 0) {
+      Alert.alert("Invalid Input", "Please enter a positive number.");
+      return;
+    }
+    
+    const currentDate = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString();
+    
+    
+    const income = (numAmount + parseFloat(currency.income.number || 0)).toFixed(2);
+    
+    dispatch(setIncome({number: income}));
+    dispatch(updateTransactionTrack({
+      amount: numAmount.toFixed(2), 
+      message: description, 
+      date: currentDate, 
+      time: currentTime, 
+      isIncome: true 
+    }));
+    
+    setAmount('');
+    setDescription('');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,17 +57,15 @@ const Income = () => {
         <Text style={styles.currencySymbol}>{currency.code}</Text>
         <TextInput
           style={styles.textInput}
-          maxLength={8}
-          keyboardType="number-pad"
+          maxLength={10}
+          keyboardType="decimal-pad"
           placeholder="0.00"
           placeholderTextColor="rgba(255, 255, 255, 0.5)"
           onChangeText={(text) => setAmount(text)}
           value={amount}
         />
       </View>
-      
-      {/* Description Input */}
-      <View style={styles.descriptionContainer}>
+        <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionTitle}>Income description</Text>
         <TextInput
           style={styles.descriptionInput}
@@ -62,15 +78,13 @@ const Income = () => {
         />
       </View>
       
-      {amount && amount.toString().trim() ? (
-        <View style={styles.button}>
-          <Button 
-            title="Add" 
-            onPress={buttonhandler} 
-            color="#2E7D32"
-          />
-        </View>
-      ) : null}
+      <View style={styles.button}>
+        <Button 
+          title="Add" 
+          onPress={buttonhandler} 
+          color="#2E7D32"
+        />
+      </View>
     </SafeAreaView>
   );
 };

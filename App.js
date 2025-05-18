@@ -19,8 +19,6 @@ import { loadPersistedState } from './Store/persistenceMiddleware.js';
 import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from './Store/CurrencySlice.js';
 
 function DrawerNavigation() {
-  const currency = useSelector((store) => store.Currency);
-  
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -146,43 +144,43 @@ function DrawerNavigation() {
           ),
         }}
       />
-
     </Drawer.Navigator>
   );
 }
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
-    const loadState = async () => {
-      const persistedState = await loadPersistedState();
-      
-      if (persistedState) {
-        // Restore the persisted state to the Redux store
-        Store.dispatch(setCurrencyCode(persistedState.code));
-        Store.dispatch(setIncome({number: persistedState.income.number}));
-        Store.dispatch(setExpense({number: persistedState.expense.number}));
+    const initializeStore = async () => {
+      try {
+        const persistedState = await loadPersistedState();
         
-        // Restore transaction history
-        if (persistedState.transactiontrack && persistedState.transactiontrack.length > 0) {
-          persistedState.transactiontrack.forEach(transaction => {
-            Store.dispatch(updateTransactionTrack(transaction));
-          });
+        if (persistedState) {
+          Store.dispatch(setCurrencyCode(persistedState.code || 'USD'));
+          Store.dispatch(setIncome({number: persistedState.income.number}));
+          Store.dispatch(setExpense({number: persistedState.expense.number}));
+            if (persistedState.transactiontrack && persistedState.transactiontrack.length > 0) {
+            Store.dispatch({ type: 'currency/clearTransactions' });
+            
+            persistedState.transactiontrack.forEach(transaction => {
+              Store.dispatch(updateTransactionTrack(transaction));
+            });
+          }
         }
+      } catch (error) {
+        console.error('Failed to initialize store:', error);
+      } finally {
+        setIsLoading(false);
       }
-      
-      setIsLoading(false);
     };
 
-    loadState();
+    initializeStore();
   }, []);
-
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#2196F3" />
-        <Text style={styles.loadingText}>Loading your data...</Text>
+        <Text style={styles.loadingText}>Loading your wallet...</Text>
       </View>
     );
   }
