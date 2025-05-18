@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { GlobalStyles } from '../constants/styles';
 
 function AboutScreen() {
   return (
@@ -19,10 +18,10 @@ function AboutScreen() {
         </Text>
         
         <Text style={styles.sectionTitle}>Developer</Text>
-        <Text style={styles.text}>Your Name</Text>
+        <Text style={styles.text}>Khan Maruf Hossain</Text>
         
         <Text style={styles.sectionTitle}>Contact</Text>
-        <Text style={styles.text}>your.email@example.com</Text>
+        <Text style={styles.text}>khan.hossain.242@northsouth.edu</Text>
       </ScrollView>
     </View>
   );
@@ -31,7 +30,7 @@ function AboutScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: GlobalStyles.colors.primary700,
+    backgroundColor: "#FF9800", 
   },
   scrollContainer: {
     padding: 16,
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: GlobalStyles.colors.primary50,
+    color: 'white', 
     marginTop: 16,
     marginBottom: 8,
   },

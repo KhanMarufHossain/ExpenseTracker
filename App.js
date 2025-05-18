@@ -18,67 +18,11 @@ const Drawer = createDrawerNavigator();
 import React, { useState, useEffect } from 'react';
 import { loadPersistedState } from './Store/persistenceMiddleware.js';
 import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from './Store/CurrencySlice.js';
-// Define AboutScreen directly here instead of importing it
-const AboutScreen = () => {
-  return (
-    <View style={stylesAbout.container}>
-      <ScrollView style={stylesAbout.scrollContainer}>
-        <Text style={stylesAbout.title}>About Expense Tracker</Text>
-        
-        <Text style={stylesAbout.sectionTitle}>App Version</Text>
-        <Text style={stylesAbout.text}>1.0.0</Text>
-        
-        <Text style={stylesAbout.sectionTitle}>Description</Text>
-        <Text style={stylesAbout.text}>
-          Expense Tracker helps you manage your personal finances by tracking
-          your expenses and earnings. Keep an eye on your spending habits and
-          take control of your financial health.
-        </Text>
-        
-        <Text style={stylesAbout.sectionTitle}>Developer</Text>
-        <Text style={stylesAbout.text}>Your Name</Text>
-        
-        <Text style={stylesAbout.sectionTitle}>Contact</Text>
-        <Text style={stylesAbout.text}>your.email@example.com</Text>
-      </ScrollView>
-    </View>
-  );
-};
-
-const stylesAbout = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FF9800", // Match header color
-  },
-  scrollContainer: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: "#FFF3E0", // Match drawer active background color
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  text: {
-    fontSize: 16,
-    color: 'white',
-    marginBottom: 8,
-  },
-});
+import AboutScreen from './Screens/AboutScreen';
 
 function DrawerNavigation() {
-  // Add a manual update check function
   const handleManualUpdate = async () => {
     try {
-      // Show loading indicator
       Alert.alert("Checking for Updates", "Please wait while we check for updates...");
       
       const update = await Updates.checkForUpdateAsync();
@@ -241,10 +185,16 @@ function DrawerNavigation() {
         }}
       />
       
-      {/* Add a special drawer item for manual updates */}
+      
       <Drawer.Screen
         name="CheckForUpdates"
-        component={() => (
+        options={{
+          title: "Check for Updates",
+          drawerIcon: ({color, size}) => (
+            <Ionicons name="refresh-circle-outline" size={size} color={color} />
+          )
+        }}>
+        {() => (
           <View style={styles.updateContainer}>
             <Text style={styles.updateTitle}>App Updates</Text>
             <Text style={styles.updateDescription}>
@@ -259,33 +209,16 @@ function DrawerNavigation() {
             </TouchableOpacity>
           </View>
         )}
-        options={{
-          title: "Check for Updates",
-          headerStyle: {
-            backgroundColor: "#3498db",
-            elevation: 5,
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-            fontSize: 18,
-          },
-          drawerActiveBackgroundColor: "#e1f5fe",
-          drawerActiveTintColor: "#0288d1",
-          drawerIcon: ({ color }) => (
-            <Ionicons name="refresh-circle" size={24} color={color} />
-          ),
-        }}
-      />
+      </Drawer.Screen>
       
-      {/* About Screen */}
+      
       <Drawer.Screen
         name="About"
         component={AboutScreen}
         options={{
           title: "About",
           headerStyle: {
-            backgroundColor: "#FF9800", // Orange color for the header
+            backgroundColor: "#FF9800", 
             elevation: 5,
           },
           headerTintColor: "#fff",
@@ -312,7 +245,7 @@ export default function App() {
     try {
       const update = await Updates.checkForUpdateAsync();
       if (update.isAvailable) {
-        // Instead of automatically updating, we'll prompt the user
+        
         Alert.alert(
           "Update Available",
           "A new update is available. Would you like to download and install it now?",
@@ -339,7 +272,7 @@ export default function App() {
       }
     } catch (error) {
       console.log('Error checking for updates:', error);
-      // No need to alert the user on automatic checks that fail
+      
     }
   };
 
