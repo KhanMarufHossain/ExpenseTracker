@@ -35,7 +35,10 @@ export default function History() {
           {item.isIncome ? '+' : '-'} {code} {parseFloat(item.amount).toFixed(2)}
         </Text>
       </View>
-      <Text style={styles.time}>{item.time}</Text>
+      <View style={styles.dateTimeContainer}>
+        <Text style={styles.date}>{item.date || '10/12/225'}</Text>
+        <Text style={styles.time}>{item.time}</Text>
+      </View>
     </View>
   );
 
@@ -120,10 +123,19 @@ const styles = StyleSheet.create({
   expenseAmount: {
     color: '#E53935',
   },
+  dateTimeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  date: {
+    fontSize: 13,
+    color: '#78909C',
+    marginRight: 8,
+  },
   time: {
     fontSize: 13,
     color: '#78909C',
-    textAlign: 'right',
   },
   emptyContainer: {
     flex: 1,

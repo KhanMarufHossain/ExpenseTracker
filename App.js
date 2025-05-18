@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator, Alert, Button } from "react-native";
+import * as Updates from 'expo-updates';
 import Home from "./Screens/Home";
 import ChooseCurrency from "./Screens/Currency";
 import { Store } from "./Store/store.js";
@@ -150,6 +151,24 @@ function DrawerNavigation() {
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Check for updates
+  const checkForUpdates = async () => {
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        Alert.alert(
+          "Update Available",
+          "A new update is ready. The app will now restart to apply the changes.",
+          [{ text: "OK", onPress: () => Updates.reloadAsync() }]
+        );
+      }
+    } catch (error) {
+      console.log('Error checking for updates:', error);
+    }
+  };
+
   useEffect(() => {
     const initializeStore = async () => {
       try {
@@ -175,6 +194,7 @@ export default function App() {
     };
 
     initializeStore();
+    checkForUpdates();
   }, []);
   if (isLoading) {
     return (
