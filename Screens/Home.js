@@ -24,7 +24,7 @@ export default function Home() {
         <Title name= "WALLET" style={styles.title}/>
         <View style={styles.balanceContainer}>
           <Text style={styles.balanceLabel}>Current Balance</Text>
-          <MoneyAmount />
+          <MoneyAmount /> // Here we show the wallet balance
         </View>
         <View style={styles.summaryContainer}>
           <Text style={styles.addHintText}>Tap to Add:</Text>
