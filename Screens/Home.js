@@ -6,13 +6,11 @@ import {
   StatusBar,
   useWindowDimensions,
   Pressable,
-  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Title from "../Components/Title";
 import MoneyAmount from "../Components/MoneyAmount";
 import { useSelector } from "react-redux";
-import * as Updates from 'expo-updates';
 
 export default function Home() {
   const Currency = useSelector(store => store.Currency);
@@ -22,27 +20,6 @@ export default function Home() {
   
   const incomeValue = parseFloat(Currency?.income?.number || 0).toFixed(2);
   const expenseValue = parseFloat(Currency?.expense?.number || 0).toFixed(2);
-  
-  const checkForUpdates = async () => {
-    try {
-      Alert.alert("Checking for Updates", "Please wait while we check for new updates...");
-      const update = await Updates.checkForUpdateAsync();
-      
-      if (update.isAvailable) {
-        const fetchResult = await Updates.fetchUpdateAsync();
-        Alert.alert(
-          "Update Available",
-          "A new update has been downloaded. The app will now restart to apply the changes.",
-          [{ text: "OK", onPress: () => Updates.reloadAsync() }]
-        );
-      } else {
-        Alert.alert("No Updates", "Your app is already up to date!");
-      }
-    } catch (error) {
-      console.log('Error checking for updates:', error);
-      Alert.alert("Update Error", "Failed to check for updates. Please try again later.");
-    }
-  };
   
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -79,13 +56,6 @@ export default function Home() {
           </View>
         </View>
         
-        <Pressable 
-          style={styles.updateButton}
-          android_ripple={{color: 'rgba(255, 255, 255, 0.2)'}} 
-          onPress={checkForUpdates}
-        >
-          <Text style={styles.updateButtonText}>Check for Updates</Text>
-        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -162,20 +132,5 @@ const styles = StyleSheet.create({
   },
   expenseText: {
     color: "#e74c3c",
-  },
-  updateButton: {
-    backgroundColor: "#1565C0",
-    borderRadius: 10,
-    padding: 14,
-    marginTop: 30,
-    marginHorizontal: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 3,
-  },
-  updateButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });
