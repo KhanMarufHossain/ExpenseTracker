@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, ActivityIndicator, Alert, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator, Alert, Button, TouchableOpacity, ScrollView } from "react-native";
 import * as Updates from 'expo-updates';
 import Home from "./Screens/Home";
 import ChooseCurrency from "./Screens/Currency";
@@ -18,6 +18,61 @@ const Drawer = createDrawerNavigator();
 import React, { useState, useEffect } from 'react';
 import { loadPersistedState } from './Store/persistenceMiddleware.js';
 import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from './Store/CurrencySlice.js';
+// Define AboutScreen directly here instead of importing it
+const AboutScreen = () => {
+  return (
+    <View style={stylesAbout.container}>
+      <ScrollView style={stylesAbout.scrollContainer}>
+        <Text style={stylesAbout.title}>About Expense Tracker</Text>
+        
+        <Text style={stylesAbout.sectionTitle}>App Version</Text>
+        <Text style={stylesAbout.text}>1.0.0</Text>
+        
+        <Text style={stylesAbout.sectionTitle}>Description</Text>
+        <Text style={stylesAbout.text}>
+          Expense Tracker helps you manage your personal finances by tracking
+          your expenses and earnings. Keep an eye on your spending habits and
+          take control of your financial health.
+        </Text>
+        
+        <Text style={stylesAbout.sectionTitle}>Developer</Text>
+        <Text style={stylesAbout.text}>Your Name</Text>
+        
+        <Text style={stylesAbout.sectionTitle}>Contact</Text>
+        <Text style={stylesAbout.text}>your.email@example.com</Text>
+      </ScrollView>
+    </View>
+  );
+};
+
+const stylesAbout = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FF9800", // Match header color
+  },
+  scrollContainer: {
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: "#FFF3E0", // Match drawer active background color
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  text: {
+    fontSize: 16,
+    color: 'white',
+    marginBottom: 8,
+  },
+});
 
 function DrawerNavigation() {
   // Add a manual update check function
@@ -219,6 +274,29 @@ function DrawerNavigation() {
           drawerActiveTintColor: "#0288d1",
           drawerIcon: ({ color }) => (
             <Ionicons name="refresh-circle" size={24} color={color} />
+          ),
+        }}
+      />
+      
+      {/* About Screen */}
+      <Drawer.Screen
+        name="About"
+        component={AboutScreen}
+        options={{
+          title: "About",
+          headerStyle: {
+            backgroundColor: "#FF9800", // Orange color for the header
+            elevation: 5,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 18,
+          },
+          drawerActiveBackgroundColor: "#FFF3E0",
+          drawerActiveTintColor: "#E65100",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="information-circle-outline" size={24} color={color} />
           ),
         }}
       />
