@@ -28,16 +28,26 @@
     },
     "extra": {
       "eas": {
-        "projectId": "b33dae92-f41c-4d16-a1fb-32855f7aae6b"
+        "projectId": "1d325657-6a30-4662-bf2e-0f7f338a35a8"
       }
     },
     "updates": {
       "enabled": true,
       "checkAutomatically": "ON_LOAD",
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/1d325657-6a30-4662-bf2e-0f7f338a35a8"
     },
     "runtimeVersion": {
       "policy": "appVersion"
-    }
+    },
+    "owner": "marufhossain03"
+  },
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {}
   }
 }
