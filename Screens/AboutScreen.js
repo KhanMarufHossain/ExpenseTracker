@@ -1,7 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
 
 function AboutScreen() {
+  // Function to handle opening URLs
+  const openURL = (url) => {
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log("Don't know how to open URI: " + url);
+      }
+    });
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -21,7 +32,18 @@ function AboutScreen() {
         <Text style={styles.text}>Khan Maruf Hossain</Text>
         
         <Text style={styles.sectionTitle}>Contact</Text>
-        <Text style={styles.text}>khan.hossain.242@northsouth.edu</Text>
+        <Text style={styles.text}>Email - khan.hossain.242@northsouth.edu</Text>
+        
+        {/* LinkedIn link with TouchableOpacity */}
+        <View style={styles.linkContainer}>
+          <Text style={styles.linkLabel}>LinkedIn - </Text>
+          <TouchableOpacity 
+            onPress={() => openURL('https://www.linkedin.com/in/khan-maruf-hossain-3b42b4347/')}>
+            <Text style={styles.linkText}>
+              Khan Maruf Hossain
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -54,6 +76,21 @@ const styles = StyleSheet.create({
     color: 'white',
     marginBottom: 8,
   },
+  linkContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  linkLabel: {
+    fontSize: 16,
+    color: 'white',
+  },
+  linkText: {
+    fontSize: 16,
+    color: '#00BFFF',
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
+  }
 });
 
 export default AboutScreen;
