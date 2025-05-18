@@ -34,9 +34,8 @@ export default function History() {
         ]}>
           {item.isIncome ? '+' : '-'} {code} {parseFloat(item.amount).toFixed(2)}
         </Text>
-      </View>
-      <View style={styles.dateTimeContainer}>
-        <Text style={styles.date}>{item.date || '10/12/225'}</Text>
+      </View>      <View style={styles.dateTimeContainer}>
+        <Text style={styles.date}>{item.date || '10/12/2025'}</Text>
         <Text style={styles.time}>{item.time}</Text>
       </View>
     </View>
