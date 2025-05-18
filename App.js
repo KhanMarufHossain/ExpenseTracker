@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, ActivityIndicator, Alert, Button } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator, Alert, Button, TouchableOpacity } from "react-native";
 import * as Updates from 'expo-updates';
 import Home from "./Screens/Home";
 import ChooseCurrency from "./Screens/Currency";
@@ -20,6 +20,46 @@ import { loadPersistedState } from './Store/persistenceMiddleware.js';
 import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from './Store/CurrencySlice.js';
 
 function DrawerNavigation() {
+  // Add a manual update check function
+  const handleManualUpdate = async () => {
+    try {
+      // Show loading indicator
+      Alert.alert("Checking for Updates", "Please wait while we check for updates...");
+      
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        Alert.alert(
+          "Update Available",
+          "A new update is available. Would you like to download and install it now?",
+          [
+            { text: "Not Now", style: "cancel" },
+            { 
+              text: "Update", 
+              onPress: async () => {
+                try {
+                  await Updates.fetchUpdateAsync();
+                  Alert.alert(
+                    "Update Downloaded",
+                    "The update has been downloaded. The app will now restart to apply the changes.",
+                    [{ text: "OK", onPress: () => Updates.reloadAsync() }]
+                  );
+                } catch (error) {
+                  Alert.alert("Error", "Failed to download the update. Please try again later.");
+                  console.error("Update download error:", error);
+                }
+              }
+            }
+          ]
+        );
+      } else {
+        Alert.alert("No Updates", "Your app is already up to date!");
+      }
+    } catch (error) {
+      Alert.alert("Error", "Failed to check for updates. Please try again later.");
+      console.error("Update check error:", error);
+    }
+  };
+
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -145,6 +185,43 @@ function DrawerNavigation() {
           ),
         }}
       />
+      
+      {/* Add a special drawer item for manual updates */}
+      <Drawer.Screen
+        name="CheckForUpdates"
+        component={() => (
+          <View style={styles.updateContainer}>
+            <Text style={styles.updateTitle}>App Updates</Text>
+            <Text style={styles.updateDescription}>
+              Your app automatically checks for updates when it starts.
+              You can also manually check for updates here.
+            </Text>
+            <TouchableOpacity 
+              style={styles.updateButton} 
+              onPress={handleManualUpdate}
+            >
+              <Text style={styles.updateButtonText}>Check for Updates</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        options={{
+          title: "Check for Updates",
+          headerStyle: {
+            backgroundColor: "#3498db",
+            elevation: 5,
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 18,
+          },
+          drawerActiveBackgroundColor: "#e1f5fe",
+          drawerActiveTintColor: "#0288d1",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="refresh-circle" size={24} color={color} />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -157,15 +234,34 @@ export default function App() {
     try {
       const update = await Updates.checkForUpdateAsync();
       if (update.isAvailable) {
-        await Updates.fetchUpdateAsync();
+        // Instead of automatically updating, we'll prompt the user
         Alert.alert(
           "Update Available",
-          "A new update is ready. The app will now restart to apply the changes.",
-          [{ text: "OK", onPress: () => Updates.reloadAsync() }]
+          "A new update is available. Would you like to download and install it now?",
+          [
+            { text: "Later", style: "cancel" },
+            { 
+              text: "Update Now", 
+              onPress: async () => {
+                try {
+                  await Updates.fetchUpdateAsync();
+                  Alert.alert(
+                    "Update Downloaded",
+                    "The update has been downloaded. The app will now restart to apply the changes.",
+                    [{ text: "OK", onPress: () => Updates.reloadAsync() }]
+                  );
+                } catch (error) {
+                  Alert.alert("Error", "Failed to download the update. Please try again later.");
+                  console.error("Update download error:", error);
+                }
+              }
+            }
+          ]
         );
       }
     } catch (error) {
       console.log('Error checking for updates:', error);
+      // No need to alert the user on automatic checks that fail
     }
   };
 
@@ -232,5 +328,37 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: "#2196F3",
+  },
+  updateContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  updateTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#333",
+  },
+  updateDescription: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 30,
+    color: "#666",
+    lineHeight: 24,
+  },
+  updateButton: {
+    backgroundColor: "#3498db",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    elevation: 3,
+  },
+  updateButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   }
 });
