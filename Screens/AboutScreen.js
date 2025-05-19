@@ -16,16 +16,16 @@ function AboutScreen() {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        <Text style={styles.title}>About Expense Tracker</Text>
+        <Text style={styles.title}>About Wallet</Text>
         
         <Text style={styles.sectionTitle}>App Version</Text>
-        <Text style={styles.text}>1.0.0</Text>
+        <Text style={styles.text}>1.0.1</Text>
         
         <Text style={styles.sectionTitle}>Description</Text>
         <Text style={styles.text}>
-          Expense Tracker helps you manage your personal finances by tracking
+          Wallet helps you manage your personal finances by tracking
           your expenses and earnings. Keep an eye on your spending habits and
-          take control of your financial health.
+          take control of your financial health. This app Holds Memory persistence and in-app updates. But the user sync will be here in no time... Stay with Us. Peace💟
         </Text>
         
         <Text style={styles.sectionTitle}>Developer</Text>
