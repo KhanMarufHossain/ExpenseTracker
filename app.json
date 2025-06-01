@@ -41,13 +41,5 @@
       "policy": "appVersion"
     },
     "owner": "marufhossain03"
-  },
-  "build": {
-    "preview": {
-      "android": {
-        "buildType": "apk"
-      }
-    },
-    "production": {}
   }
 }
