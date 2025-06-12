@@ -6,7 +6,7 @@ export const registerUser = ({ email, password, name }) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     await account.create('unique()', email, password, name);
-    await account.createEmailSession(email, password);
+    await account.createEmailPasswordSession(email, password);
     const user = await account.get();
     dispatch(setUser(user));
     dispatch(setLoading(false));
@@ -20,7 +20,7 @@ export const registerUser = ({ email, password, name }) => async (dispatch) => {
 export const loginUser = ({ email, password }) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    await account.createEmailSession(email, password);
+    await account.createEmailPasswordSession(email, password);
     const user = await account.get();
     dispatch(setUser(user));
     dispatch(setLoading(false));
