@@ -19,6 +19,7 @@ import React, { useState, useEffect } from 'react';
 import { loadPersistedState } from './Store/persistenceMiddleware.js';
 import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from './Store/CurrencySlice.js';
 import AboutScreen from './Screens/AboutScreen';
+import AuthScreen from "./Screens/AuthScreen";
 
 function DrawerNavigation() {
   const handleManualUpdate = async () => {
@@ -237,9 +238,20 @@ function DrawerNavigation() {
   );
 }
 
+function MainApp() {
+  const user = useSelector((state) => state.auth.user);
+
+  return (
+    <NavigationContainer>
+      <StatusBar style="auto" />
+      {user ? <DrawerNavigation /> : <AuthScreen />}
+    </NavigationContainer>
+  );
+}
+
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Check for updates
   const checkForUpdates = async () => {
     try {
@@ -314,10 +326,7 @@ export default function App() {
 
   return (
     <Provider store={Store}>
-      <NavigationContainer>
-        <StatusBar style="auto" />
-        <DrawerNavigation />
-      </NavigationContainer>
+      <MainApp />
     </Provider>
   );
 }
