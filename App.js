@@ -20,6 +20,7 @@ import { loadPersistedState } from './Store/persistenceMiddleware.js';
 import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from './Store/CurrencySlice.js';
 import AboutScreen from './Screens/AboutScreen';
 import AuthScreen from "./Screens/AuthScreen";
+import Credentials from "./Screens/Credentials";
 
 function DrawerNavigation() {
   const handleManualUpdate = async () => {
@@ -231,6 +232,21 @@ function DrawerNavigation() {
           drawerActiveTintColor: "#E65100",
           drawerIcon: ({ color }) => (
             <Ionicons name="information-circle-outline" size={24} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Credentials"
+        component={Credentials}
+        options={{
+          title: "My Credentials",
+          headerStyle: { backgroundColor: "#1976D2", elevation: 5 },
+          headerTintColor: "#fff",
+          headerTitleStyle: { fontWeight: "bold", fontSize: 18 },
+          drawerActiveBackgroundColor: "#e3f2fd",
+          drawerActiveTintColor: "#1976D2",
+          drawerIcon: ({ color }) => (
+            <Ionicons name="person-circle-outline" size={22} color={color} />
           ),
         }}
       />
