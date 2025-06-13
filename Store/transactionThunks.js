@@ -1,4 +1,5 @@
 import { databases, account } from "./appwrite";
+import { Query } from "appwrite";
 import { updateTransactionTrack, clearTransactions } from "./CurrencySlice";
 
 const DATABASE_ID = "684b0cf90019a37d16ee";
@@ -23,10 +24,13 @@ export const addTransaction = (transaction) => async (dispatch) => {
 
 export const fetchTransactions = () => async (dispatch) => {
   try {
+    const user= await account.get();
+    const userId = user.$id;
+
     const response = await databases.listDocuments(
       DATABASE_ID,
       COLLECTION_ID,
-      []
+      [Query.equal("userId",userId)]
     );
     dispatch(clearTransactions());
     response.documents.forEach(tx => dispatch(updateTransactionTrack(tx)));
