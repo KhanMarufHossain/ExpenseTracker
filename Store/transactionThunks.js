@@ -26,7 +26,6 @@ export const fetchTransactions = () => async (dispatch) => {
       COLLECTION_ID,
       []
     );
-    // Clear local transactions and add all fetched from Appwrite
     dispatch(clearTransactions());
     response.documents.forEach(tx => dispatch(updateTransactionTrack(tx)));
   } catch (error) {
