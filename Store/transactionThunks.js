@@ -1,24 +1,23 @@
 import { databases } from "./appwrite";
-
+import { updateTransactionTrack, clearTransactions } from "./CurrencySlice";
 
 const DATABASE_ID = "684b0cf90019a37d16ee";
 const COLLECTION_ID = "684b0ee400015725bbac";
 
-//Adding transaction here....
-export const addTransaction = (transaction) => async (dispatch, getState) => {
+export const addTransaction = (transaction) => async (dispatch) => {
   try {
-    await databases.createDocument(
+    const response = await databases.createDocument(
       DATABASE_ID,
       COLLECTION_ID,
       "unique()",
       transaction
     );
-    // Optionally: dispatch an action to update Redux state
+    
+    dispatch(updateTransactionTrack(response));
   } catch (error) {
     console.error("Error adding transaction:", error);
   }
 };
-
 
 export const fetchTransactions = () => async (dispatch) => {
   try {
@@ -27,7 +26,9 @@ export const fetchTransactions = () => async (dispatch) => {
       COLLECTION_ID,
       []
     );
-   
+    // Clear local transactions and add all fetched from Appwrite
+    dispatch(clearTransactions());
+    response.documents.forEach(tx => dispatch(updateTransactionTrack(tx)));
   } catch (error) {
     console.error("Error fetching transactions:", error);
   }

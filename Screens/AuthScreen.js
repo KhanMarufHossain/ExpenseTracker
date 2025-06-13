@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser, loginUser, checkUserSession, logoutUser } from "../Store/authThunks";
+import { fetchTransactions } from "../Store/transactionThunks";
 
 export default function AuthScreen() {
   const [email, setEmail] = useState("");
@@ -53,11 +54,12 @@ export default function AuthScreen() {
       />
       <Button
         title={isRegister ? "Register" : "Login"}
-        onPress={() =>
+        onPress={() => {
           isRegister
             ? dispatch(registerUser({ email, password, name }))
-            : dispatch(loginUser({ email, password }))
-        }
+            : dispatch(loginUser({ email, password }));
+          dispatch(fetchTransactions());
+        }}
       />
       <Button
         title={isRegister ? "Already have an account? Login" : "No account? Register"}
