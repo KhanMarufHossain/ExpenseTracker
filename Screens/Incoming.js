@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { setExpense } from "../Store/CurrencySlice";
+import { setExpense, setIncome } from "../Store/CurrencySlice";
 import { addTransaction } from "../Store/transactionThunks"; 
 const Income = () => {
   const dispatch = useDispatch();
@@ -34,8 +34,10 @@ const Income = () => {
     
     
     const expense = (numAmount + parseFloat(currency.expense.number || 0)).toFixed(2);
+    const income = (numAmount + parseFloat(currency.income.number || 0)).toFixed(2);
     
     dispatch(setExpense({number: expense}));
+    dispatch(setIncome({number: income}));
     dispatch(addTransaction({
       amount: numAmount.toFixed(2), 
       message: description, 

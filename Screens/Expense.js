@@ -11,7 +11,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import Title from "../Components/Title";
-import { setExpense, updateTransactionTrack } from "../Store/CurrencySlice";
+import { setExpense } from "../Store/CurrencySlice";
+import { addTransaction } from "../Store/transactionThunks";
 
 const Expense = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const Expense = () => {
     const expense = (numAmount + parseFloat(currency.expense.number || 0)).toFixed(2);
     
     dispatch(setExpense({number: expense}));
-    dispatch(updateTransactionTrack({
+    dispatch(addTransaction({
       amount: numAmount.toFixed(2), 
       message: description, 
       date: currentDate, 

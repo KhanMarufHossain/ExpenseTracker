@@ -51,7 +51,7 @@ export default function History() {
       
       <FlatList
         data={transactiontrack}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.$id || index.toString()}
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
