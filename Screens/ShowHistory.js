@@ -34,7 +34,8 @@ export default function History() {
         ]}>
           {item.isIncome ? '+' : '-'} {code} {parseFloat(item.amount).toFixed(2)}
         </Text>
-      </View>      <View style={styles.dateTimeContainer}>
+      </View>      
+      <View style={styles.dateTimeContainer}>
         <Text style={styles.date}>{item.date || '10/12/2025'}</Text>
         <Text style={styles.time}>{item.time}</Text>
       </View>
@@ -51,7 +52,7 @@ export default function History() {
       
       <FlatList
         data={transactiontrack}
-        keyExtractor={(item) => item.$id || index.toString()}
+        keyExtractor={(item, index) => item.$id || index.toString()}
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}

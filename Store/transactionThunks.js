@@ -2,7 +2,7 @@ import { databases } from "./appwrite";
 import { updateTransactionTrack, clearTransactions } from "./CurrencySlice";
 
 const DATABASE_ID = "684b0cf90019a37d16ee";
-const COLLECTION_ID = "684b0ee400015725bbac";
+const COLLECTION_ID = "684bc7640025ef61ee6c";
 
 export const addTransaction = (transaction) => async (dispatch) => {
   try {

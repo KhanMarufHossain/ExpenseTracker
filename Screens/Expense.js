@@ -38,11 +38,11 @@ const Expense = () => {
     
     dispatch(setExpense({number: expense}));
     dispatch(addTransaction({
-      amount: numAmount.toFixed(2), 
-      message: description, 
-      date: currentDate, 
-      time: currentTime, 
-      isIncome: false
+      amount: parseFloat(numAmount), 
+      message: description,
+      date: currentDate,
+      time: currentTime,
+      isIncome: false ,
     }));
     
     setAmount('');

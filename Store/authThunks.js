@@ -1,7 +1,6 @@
 import { account } from "./appwrite";
 import { setUser, setLoading, setError, logout } from "./authSlice";
 
-// Register user
 export const registerUser = ({ email, password, name }) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
@@ -16,7 +15,6 @@ export const registerUser = ({ email, password, name }) => async (dispatch) => {
   }
 };
 
-// Login user
 export const loginUser = ({ email, password }) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
@@ -30,7 +28,6 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
   }
 };
 
-// Logout user
 export const logoutUser = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
@@ -43,7 +40,6 @@ export const logoutUser = () => async (dispatch) => {
   }
 };
 
-// Check if user is logged in (on app start)
 export const checkUserSession = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
