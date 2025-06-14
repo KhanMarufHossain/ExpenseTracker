@@ -21,6 +21,7 @@ import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from '
 import AboutScreen from './Screens/AboutScreen';
 import AuthScreen from "./Screens/AuthScreen";
 import Credentials from "./Screens/Credentials";
+import NetInfo from '@react-native-community/netinfo';
 
 function DrawerNavigation() {
   const handleManualUpdate = async () => {
@@ -303,6 +304,55 @@ export default function App() {
       
     }
   };
+
+  const syncOfflineTransactions = async () => {
+    const state = Store.getState();
+    if (state?.Currency?.transactiontrack) {
+      const pendingTransactions = state.Currency.transactiontrack.filter(tx => tx.pendingSync);
+      
+      for (const tx of pendingTransactions) {
+        try {
+          // Remove local flags
+          const { pendingSync, $id, ...transactionData } = tx;
+          
+          // Save to Appwrite
+          await databases.createDocument(
+            DATABASE_ID,
+            COLLECTION_ID,
+            "unique()",
+            transactionData,
+            [
+              Permission.read(Role.user(tx.userId)),
+              Permission.update(Role.user(tx.userId)),
+              Permission.delete(Role.user(tx.userId)),
+              Permission.write(Role.user(tx.userId)),
+            ]
+          );
+          
+          // Remove the local version with pendingSync flag
+          Store.dispatch({ 
+            type: 'currency/removeTransaction', 
+            payload: { id: $id } 
+          });
+          
+        } catch (error) {
+          console.error("Failed to sync transaction:", error);
+        }
+      }
+    }
+  };
+
+  // Add a network status listener
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected && Store.getState().auth?.user) {
+        // When we come back online, sync pending transactions
+        syncOfflineTransactions();
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const initializeStore = async () => {

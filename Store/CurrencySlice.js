@@ -31,9 +31,14 @@ const CurrencySlice= createSlice({
         
         clearTransactions: (state) => {
             state.transactiontrack = [];
-        }
+        },
+        removeTransaction: (state, action) => {
+            state.transactiontrack = state.transactiontrack.filter(
+              tx => tx.$id !== action.payload.id
+            );
+          }
     }
 });
 
 export default CurrencySlice.reducer;
-export const {setCurrencyCode, setIncome, setExpense, updateTransactionTrack, clearTransactions} = CurrencySlice.actions;
+export const {setCurrencyCode, setIncome, setExpense, updateTransactionTrack, clearTransactions, removeTransaction} = CurrencySlice.actions;

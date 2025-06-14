@@ -7,21 +7,41 @@ const COLLECTION_ID = "684bc7640025ef61ee6c";
 
 export const addTransaction = (transaction) => async (dispatch) => {
   try {
-    const user = await account.get();
-    const userId = user.$id;
-    const response = await databases.createDocument(
-      DATABASE_ID,
-      COLLECTION_ID,
-      "unique()",
-      { ...transaction, userId },
-      [
-        Permission.read(Role.user(userId)),
-        Permission.update(Role.user(userId)),
-        Permission.delete(Role.user(userId)),
-        Permission.write(Role.user(userId)), // Optional, covers update/delete
-      ]
-    );
-    dispatch(updateTransactionTrack(response));
+    // Get user ID for the transaction
+    let userId;
+    try {
+      const user = await account.get();
+      userId = user.$id;
+    } catch (error) {
+      // If offline, use cached userId or generate a temporary one
+      userId = "offline_" + new Date().getTime();
+    }
+
+    // Try to save to Appwrite
+    try {
+      const response = await databases.createDocument(
+        DATABASE_ID,
+        COLLECTION_ID,
+        "unique()",
+        { ...transaction, userId },
+        [
+          Permission.read(Role.user(userId)),
+          Permission.update(Role.user(userId)),
+          Permission.delete(Role.user(userId)),
+          Permission.write(Role.user(userId)),
+        ]
+      );
+      dispatch(updateTransactionTrack(response));
+    } catch (networkError) {
+      // If network error (offline), add to local Redux state
+      // Add a flag to sync later when online
+      dispatch(updateTransactionTrack({
+        ...transaction,
+        userId,
+        $id: "local_" + new Date().getTime(),
+        pendingSync: true
+      }));
+    }
   } catch (error) {
     console.error("Error adding transaction:", error);
   }
@@ -47,38 +67,38 @@ export const fetchTransactions = () => async (dispatch) => {
 // Add this new function
 export const loadUserTransactions = () => async (dispatch) => {
   try {
-    const user = await account.get();
-    const userId = user.$id;
+    // Try to get user and fetch from Appwrite
+    try {
+      const user = await account.get();
+      const userId = user.$id;
 
-    // Get user transactions
-    const response = await databases.listDocuments(
-      DATABASE_ID,
-      COLLECTION_ID,
-      [Query.equal("userId", userId)]
-    );
-    
-    // Clear previous transactions
-    dispatch(clearTransactions());
-    
-    // Calculate total income and expense from transactions
-    let totalIncome = 0;
-    let totalExpense = 0;
-    
-    // Add each transaction and calculate totals
-    response.documents.forEach((tx) => {
-      dispatch(updateTransactionTrack(tx));
+      const response = await databases.listDocuments(
+        DATABASE_ID,
+        COLLECTION_ID,
+        [Query.equal("userId", userId)]
+      );
       
-      if (tx.isIncome) {
-        totalIncome += parseFloat(tx.amount || 0);
-      } else {
-        totalExpense += parseFloat(tx.amount || 0);
-      }
-    });
-    
-    // Update income and expense totals
-    dispatch(setIncome({ number: totalIncome }));
-    dispatch(setExpense({ number: totalExpense }));
-    
+      dispatch(clearTransactions());
+      response.documents.forEach((tx) => {
+        dispatch(updateTransactionTrack(tx));
+      });
+      
+      // Calculate totals
+      let totalIncome = 0;
+      let totalExpense = 0;
+      response.documents.forEach(tx => {
+        if (tx.isIncome) totalIncome += parseFloat(tx.amount || 0);
+        else totalExpense += parseFloat(tx.amount || 0);
+      });
+      
+      dispatch(setIncome({ number: totalIncome }));
+      dispatch(setExpense({ number: totalExpense }));
+      
+    } catch (networkError) {
+      // If offline, load from AsyncStorage through App.js
+      console.log("Offline mode - using local data");
+      // Local data will be handled by App.js from AsyncStorage
+    }
   } catch (error) {
     console.error("Error loading user transactions:", error);
   }

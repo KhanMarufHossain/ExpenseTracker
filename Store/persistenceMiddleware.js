@@ -19,8 +19,8 @@ export const persistenceMiddleware = store => next => action => {
         expense: {
           number: parseFloat(state.Currency.expense.number || 0)
         },
-        // We don't need to save transactions locally if we use Appwrite
-        // transactiontrack: state.Currency.transactiontrack || []
+        // Keep this line for offline support - crucial for offline usage
+        transactiontrack: state.Currency.transactiontrack || []
       };
       
       AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave))
@@ -49,8 +49,9 @@ export const loadPersistedState = async (userId) => {
         },
         expense: {
           number: parseFloat(parsedData.expense?.number || 0)
-        }
-        // Don't load transactions from local storage
+        },
+        // Include transactions from local storage for offline support
+        transactiontrack: parsedData.transactiontrack || []
       };
     }
   } catch (error) {
