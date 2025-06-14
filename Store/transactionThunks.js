@@ -47,7 +47,9 @@ export const addTransaction = (transaction) => async (dispatch) => {
   }
 };
 
-export const fetchTransactions = () => async (dispatch) => {
+
+// Add this new function
+export const loadUserTransactions = () => async (dispatch) => {
   try {
     const user = await account.get();
     const userId = user.$id;
@@ -57,49 +59,31 @@ export const fetchTransactions = () => async (dispatch) => {
       COLLECTION_ID,
       [Query.equal("userId", userId)]
     );
+    
+    // Clear previous transactions
     dispatch(clearTransactions());
-    response.documents.forEach((tx) => dispatch(updateTransactionTrack(tx)));
-  } catch (error) {
-    console.error("Error fetching transactions:", error);
-  }
-};
-
-// Add this new function
-export const loadUserTransactions = () => async (dispatch) => {
-  try {
-    // Try to get user and fetch from Appwrite
-    try {
-      const user = await account.get();
-      const userId = user.$id;
-
-      const response = await databases.listDocuments(
-        DATABASE_ID,
-        COLLECTION_ID,
-        [Query.equal("userId", userId)]
-      );
+    
+    // Calculate total income and expense from transactions
+    let totalIncome = 0;
+    let totalExpense = 0;
+    
+    // Add each transaction and calculate totals
+    response.documents.forEach((tx) => {
+      dispatch(updateTransactionTrack(tx));
       
-      dispatch(clearTransactions());
-      response.documents.forEach((tx) => {
-        dispatch(updateTransactionTrack(tx));
-      });
-      
-      // Calculate totals
-      let totalIncome = 0;
-      let totalExpense = 0;
-      response.documents.forEach(tx => {
-        if (tx.isIncome) totalIncome += parseFloat(tx.amount || 0);
-        else totalExpense += parseFloat(tx.amount || 0);
-      });
-      
-      dispatch(setIncome({ number: totalIncome }));
-      dispatch(setExpense({ number: totalExpense }));
-      
-    } catch (networkError) {
-      // If offline, load from AsyncStorage through App.js
-      console.log("Offline mode - using local data");
-      // Local data will be handled by App.js from AsyncStorage
-    }
+      if (tx.isIncome) {
+        totalIncome += parseFloat(tx.amount || 0);
+      } else {
+        totalExpense += parseFloat(tx.amount || 0);
+      }
+    });
+    
+    // Update income and expense totals
+    dispatch(setIncome({ number: totalIncome }));
+    dispatch(setExpense({ number: totalExpense }));
+    
   } catch (error) {
     console.error("Error loading user transactions:", error);
   }
 };
+export const fetchTransactions= loadUserTransactions;

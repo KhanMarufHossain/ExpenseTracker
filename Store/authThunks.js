@@ -1,6 +1,6 @@
 import { account } from "./appwrite";
 import { setUser, setLoading, setError, logout } from "./authSlice";
-import { fetchTransactions } from "./transactionThunks";
+import { loadUserTransactions } from "./transactionThunks"; // <-- Update this import
 import { clearTransactions } from "./CurrencySlice";
 
 export const registerUser = ({ email, password, name }) => async (dispatch) => {
@@ -24,8 +24,8 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
     const user = await account.get();
     dispatch(setUser(user));
     
-    // fetch data from appwrite after user Login- last commit
-    dispatch(fetchTransactions());
+    // Use loadUserTransactions instead of fetchTransactions
+    dispatch(loadUserTransactions());
     
     dispatch(setLoading(false));
   } catch (error) {

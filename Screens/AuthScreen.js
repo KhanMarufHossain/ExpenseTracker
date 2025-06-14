@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser, loginUser, checkUserSession, logoutUser } from "../Store/authThunks";
-import { fetchTransactions } from "../Store/transactionThunks";
+import { fetchTransactions, loadUserTransactions } from "../Store/transactionThunks";
 
 export default function AuthScreen() {
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ export default function AuthScreen() {
 
   useEffect(() => {
     if (user) {
-      dispatch(fetchTransactions());
+      dispatch(loadUserTransactions());
     }
   }, [user]);
 
