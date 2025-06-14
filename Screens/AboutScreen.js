@@ -23,9 +23,7 @@ function AboutScreen() {
         
         <Text style={styles.sectionTitle}>Description</Text>
         <Text style={styles.text}>
-          Wallet helps you manage your personal finances by tracking
-          your expenses and earnings. Keep an eye on your spending habits and
-          take control of your financial health. This app Holds Memory persistence and in-app updates. And the user sync will be here in no time... Stay with Us. Peace💟
+          Test phase Update 1.0.1
         </Text>
         
         <Text style={styles.sectionTitle}>Developer</Text>
