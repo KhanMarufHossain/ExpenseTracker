@@ -307,19 +307,27 @@ export default function App() {
   useEffect(() => {
     const initializeStore = async () => {
       try {
-        const persistedState = await loadPersistedState();
-        
-        if (persistedState) {
-          Store.dispatch(setCurrencyCode(persistedState.code || 'USD'));
-          Store.dispatch(setIncome({number: persistedState.income.number}));
-          Store.dispatch(setExpense({number: persistedState.expense.number}));
-            if (persistedState.transactiontrack && persistedState.transactiontrack.length > 0) {
-            Store.dispatch({ type: 'currency/clearTransactions' });
+        // First try to check if user is logged in
+        try {
+          const session = await account.getSession('current');
+          if (session) {
+            const user = await account.get();
+            Store.dispatch(setUser(user));
             
-            persistedState.transactiontrack.forEach(transaction => {
-              Store.dispatch(updateTransactionTrack(transaction));
-            });
+            // If user is logged in, load their data from Appwrite
+            Store.dispatch(loadUserTransactions());
+            
+            // Also load user preferences from AsyncStorage
+            const persistedState = await loadPersistedState(user.$id);
+            if (persistedState) {
+              Store.dispatch(setCurrencyCode(persistedState.code || 'USD'));
+            }
           }
+        } catch (sessionError) {
+          console.log('No active session');
+          
+          // No user logged in, just load default values
+          Store.dispatch(setCurrencyCode('USD'));
         }
       } catch (error) {
         console.error('Failed to initialize store:', error);

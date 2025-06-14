@@ -1,5 +1,7 @@
 import { account } from "./appwrite";
 import { setUser, setLoading, setError, logout } from "./authSlice";
+import { fetchTransactions } from "./transactionThunks";
+import { clearTransactions } from "./CurrencySlice";
 
 export const registerUser = ({ email, password, name }) => async (dispatch) => {
   dispatch(setLoading(true));
@@ -21,6 +23,10 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
     await account.createEmailPasswordSession(email, password);
     const user = await account.get();
     dispatch(setUser(user));
+    
+    // fetch data from appwrite after user Login- last commit
+    dispatch(fetchTransactions());
+    
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
@@ -33,6 +39,10 @@ export const logoutUser = () => async (dispatch) => {
   try {
     await account.deleteSession('current');
     dispatch(logout());
+    
+    // clear transaction data to keep it clean
+    dispatch(clearTransactions());
+    
     dispatch(setLoading(false));
   } catch (error) {
     dispatch(setError(error.message));
