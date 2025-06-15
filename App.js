@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { loadUserTransactions } from './Store/transactionThunks';
 import { StyleSheet, View, Text, ActivityIndicator, Alert, Button, TouchableOpacity, ScrollView } from "react-native";
 import * as Updates from 'expo-updates';
 import Home from "./Screens/Home";
