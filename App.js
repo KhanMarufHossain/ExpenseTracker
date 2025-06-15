@@ -313,10 +313,8 @@ export default function App() {
       
       for (const tx of pendingTransactions) {
         try {
-          // Remove local flags
           const { pendingSync, $id, ...transactionData } = tx;
           
-          // Save to Appwrite
           await databases.createDocument(
             DATABASE_ID,
             COLLECTION_ID,
@@ -330,7 +328,6 @@ export default function App() {
             ]
           );
           
-          // Remove the local version with pendingSync flag
           Store.dispatch({ 
             type: 'currency/removeTransaction', 
             payload: { id: $id } 
@@ -343,11 +340,9 @@ export default function App() {
     }
   };
 
-  // Add a network status listener
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
       if (state.isConnected && Store.getState().auth?.user) {
-        // When we come back online, sync pending transactions
         syncOfflineTransactions();
       }
     });
@@ -358,38 +353,31 @@ export default function App() {
   useEffect(() => {
     const initializeStore = async () => {
       try {
-        // First try to check if user is logged in
+        const persistedState = await loadPersistedState();
+        if (persistedState) {
+          Store.dispatch(setCurrencyCode(persistedState.code || 'USD'));
+          Store.dispatch(setIncome({number: persistedState.income.number || 0}));
+          Store.dispatch(setExpense({number: persistedState.expense.number || 0}));
+          
+          Store.dispatch(clearTransactions());
+          
+          if (persistedState.transactiontrack && persistedState.transactiontrack.length > 0) {
+            persistedState.transactiontrack.forEach(transaction => {
+              Store.dispatch(updateTransactionTrack(transaction));
+            });
+          }
+        }
+        
         try {
           const session = await account.getSession('current');
           if (session) {
             const user = await account.get();
             Store.dispatch(setUser(user));
-            
-            // If user is logged in, load their data from Appwrite
-            Store.dispatch(loadUserTransactions());
-            
-            // Also load user preferences from AsyncStorage
-            const persistedState = await loadPersistedState(user.$id);
-            if (persistedState) {
-              Store.dispatch(setCurrencyCode(persistedState.code || 'USD'));
-              
-             
-              Store.dispatch(setIncome({number: persistedState.income.number || 0}));
-              Store.dispatch(setExpense({number: persistedState.expense.number || 0}));
-              
-              if (persistedState.transactiontrack && persistedState.transactiontrack.length > 0) {
-                persistedState.transactiontrack.forEach(transaction => {
-                  Store.dispatch(updateTransactionTrack(transaction));
-                });
-              }
-            }
           }
         } catch (sessionError) {
           console.log('No active session');
-          
-          // No user logged in, just load default values
-          Store.dispatch(setCurrencyCode('USD'));
         }
+        
       } catch (error) {
         console.error('Failed to initialize store:', error);
       } finally {

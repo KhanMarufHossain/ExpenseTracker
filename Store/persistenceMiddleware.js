@@ -1,16 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Change to use user-specific storage key
+// Simple constant storage key
+const STORAGE_KEY = 'EXPENSE_TRACKER_DATA';
+
 export const persistenceMiddleware = store => next => action => {
   const result = next(action);
   
   const state = store.getState();
-  // Only save if both Currency data and a user exist
-  if (state && state.Currency && state.auth && state.auth.user) {
+  if (state && state.Currency) {
     try {
-      const userId = state.auth.user.$id;
-      const STORAGE_KEY = `EXPENSE_TRACKER_${userId}`;
-      
       const dataToSave = {
         code: state.Currency.code || 'USD',
         income: {
@@ -19,7 +17,6 @@ export const persistenceMiddleware = store => next => action => {
         expense: {
           number: parseFloat(state.Currency.expense.number || 0)
         },
-        // Keep this line for offline support - crucial for offline usage
         transactiontrack: state.Currency.transactiontrack || []
       };
       
@@ -33,11 +30,8 @@ export const persistenceMiddleware = store => next => action => {
   return result;
 };
 
-export const loadPersistedState = async (userId) => {
-  if (!userId) return null;
-  
+export const loadPersistedState = async () => {
   try {
-    const STORAGE_KEY = `EXPENSE_TRACKER_${userId}`;
     const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
     if (jsonValue !== null) {
       const parsedData = JSON.parse(jsonValue);
@@ -50,7 +44,6 @@ export const loadPersistedState = async (userId) => {
         expense: {
           number: parseFloat(parsedData.expense?.number || 0)
         },
-        // Include transactions from local storage for offline support
         transactiontrack: parsedData.transactiontrack || []
       };
     }

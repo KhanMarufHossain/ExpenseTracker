@@ -1,7 +1,7 @@
 import { account } from "./appwrite";
 import { setUser, setLoading, setError, logout } from "./authSlice";
-import { loadUserTransactions } from "./transactionThunks"; // <-- Update this import
-import { clearTransactions } from "./CurrencySlice";
+import { loadUserTransactions } from "./transactionThunks";
+import { clearTransactions, setIncome, setExpense, setCurrencyCode } from "./CurrencySlice";
 
 export const registerUser = ({ email, password, name }) => async (dispatch) => {
   dispatch(setLoading(true));
@@ -24,7 +24,10 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
     const user = await account.get();
     dispatch(setUser(user));
     
-    // Use loadUserTransactions instead of fetchTransactions
+    dispatch(clearTransactions());
+    dispatch(setIncome({number: 0}));
+    dispatch(setExpense({number: 0}));
+    
     dispatch(loadUserTransactions());
     
     dispatch(setLoading(false));
@@ -40,8 +43,10 @@ export const logoutUser = () => async (dispatch) => {
     await account.deleteSession('current');
     dispatch(logout());
     
-    // clear transaction data to keep it clean
     dispatch(clearTransactions());
+    dispatch(setIncome({number: 0}));
+    dispatch(setExpense({number: 0}));
+    dispatch(setCurrencyCode('USD')); // Reset to default
     
     dispatch(setLoading(false));
   } catch (error) {
