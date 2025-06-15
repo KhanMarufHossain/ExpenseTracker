@@ -371,6 +371,16 @@ export default function App() {
             const persistedState = await loadPersistedState(user.$id);
             if (persistedState) {
               Store.dispatch(setCurrencyCode(persistedState.code || 'USD'));
+              
+             
+              Store.dispatch(setIncome({number: persistedState.income.number || 0}));
+              Store.dispatch(setExpense({number: persistedState.expense.number || 0}));
+              
+              if (persistedState.transactiontrack && persistedState.transactiontrack.length > 0) {
+                persistedState.transactiontrack.forEach(transaction => {
+                  Store.dispatch(updateTransactionTrack(transaction));
+                });
+              }
             }
           }
         } catch (sessionError) {
