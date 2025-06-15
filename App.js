@@ -18,7 +18,7 @@ import History from "./Screens/ShowHistory.js";
 const Drawer = createDrawerNavigator();
 import React, { useState, useEffect } from 'react';
 import { loadPersistedState } from './Store/persistenceMiddleware.js';
-import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack } from './Store/CurrencySlice.js';
+import { setCurrencyCode, setIncome, setExpense, updateTransactionTrack, clearTransactions } from './Store/CurrencySlice.js';
 import AboutScreen from './Screens/AboutScreen';
 import AuthScreen from "./Screens/AuthScreen";
 import Credentials from "./Screens/Credentials";
